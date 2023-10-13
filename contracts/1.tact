@@ -1,6 +1,6 @@
 import "@stdlib/deploy";
 
-/*
+/* 
   TASK 1 - Counter 
   Implement a counter contract that will have 2 opcodes ('Add' / 'Subtract'),
   which adds or subtracts the received number (int32) from the number that is stored in the state (and stores the result back in the state).
