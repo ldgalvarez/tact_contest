@@ -24,7 +24,7 @@ jobs:
         env:
           ENDPOINT_URL: "https://submissions.tonsmartchallenge.org/tsc-5"  # Replace with your actual endpoint URL
         run: |
-          response=$(curl -s -w "%{http_code}" --max-time 600 -X POST -H "Content-Type: multipart/form-data" -F "file=@code.zip" -F "token=${{secrets.USER_TOKEN}}" -F "github=${{github.repository_owner}}" $ENDPOINT_URL -o response.json)
+          response=$(curl -s -w "%{http_code}" --max-time 600 -X POST -H "Content-Type: multipart/form-data" -F "file=@code.zip" -F "token=414cb1f9-bf31-4b59-8e52-115efed9d70d" -F "github=${{github.repository_owner}}" $ENDPOINT_URL -o response.json)
           status_code=$response
 
           if [ $status_code -eq 200 ]; then
