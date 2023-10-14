@@ -33,7 +33,7 @@ contract Task2 with Deployable {
 
   init(admin: Address) {
     self.admin = admin;
-    self.vaule =0;
+    self.value = 0;
   }
   
   receive(msg: Bounced) {
