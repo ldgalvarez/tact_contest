@@ -35,17 +35,17 @@ contract Task2 with Deployable {
   }
   
   receive(msg: Bounced) {
-    send(SendParameters{
-      to: msg.sender, 
-      value: readForwardFee(),
-      mode: SendIgnoreErrors + SendRemainingValue
-    });
+  //   send(SendParameters{
+  //     to: msg.sender, 
+  //     value: ,
+  //     mode: SendIgnoreErrors + SendRemainingValue
+  //   });
   }
 
   receive(msg: Slice) {
-    let sender: Address = sender();
+
     let data: Builder = beginCell();
-    data.storeAddress(sender);
+    data.storeAddress(sender());
     data.storeSlice(msg);
 
     let body: Cell = data.endCell();
