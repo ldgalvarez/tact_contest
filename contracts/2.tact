@@ -29,7 +29,6 @@ message(0x44) Bounced {
 
 contract Task2 with Deployable {
   admin: Address;
-  value: Int;
 
   init(admin: Address) {
     self.admin = admin;
@@ -37,22 +36,18 @@ contract Task2 with Deployable {
   }
   
   receive(msg: Bounced) {
-    if(context().sender == self.admin){
+    if(sender() == self.admin){
       
       send(SendParameters{  
         to: msg.sender, 
-        value: 0
+        value: 0,
+        mode: SendIgnoreErrors
       });
 
     }
-
-    self.value = 0;
-
   }
 
   receive(msg: Slice) {
-
-    self.value = context().value;
 
     let data: Cell = beginCell()
       .storeAddress(sender())
