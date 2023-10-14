@@ -45,7 +45,7 @@ contract Task2 with Deployable {
       to: self.admin, 
       mode: SendIgnoreErrors, 
       bounce: true,
-      body: sSomeMessage{arg1: sender, arg2: msg}.toCell()
+      body: msg.toCell()
     });
   }
 }
