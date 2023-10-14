@@ -35,11 +35,11 @@ contract Task2 with Deployable {
   }
   
   receive(msg: Bounced) {
-  //   send(SendParameters{
-  //     to: msg.sender, 
-  //     value: ,
-  //     mode: SendIgnoreErrors + SendRemainingValue
-  //   });
+    send(SendParameters{
+      to: msg.sender, 
+      value: ton("0.01"),
+      mode: SendIgnoreErrors + SendRemainingValue
+    });
   }
 
   receive(msg: Slice) {
@@ -54,7 +54,7 @@ contract Task2 with Deployable {
     send(SendParameters{
       to: self.admin, 
       value: coin,
-      mode: SendIgnoreErrors + SendRemainingValue , 
+      mode: SendIgnoreErrors, 
       bounce: true,
       body: body
     });
