@@ -37,17 +37,17 @@ contract Task2 with Deployable {
   }
   
   receive(msg: Bounced) {
-    if(context().sender == self.admin){
+    // if(context().sender == self.admin){
       
-      send(SendParameters{  
-        to: msg.sender, 
-        value: self.value,
-        mode: SendIgnoreErrors
-      });
+    //   send(SendParameters{  
+    //     to: msg.sender, 
+    //     value: self.value,
+    //     mode: SendIgnoreErrors
+    //   });
 
-    }
-    
-    self.value = 0;
+    // }
+
+    // self.value = 0;
 
   }
 
