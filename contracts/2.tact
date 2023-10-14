@@ -39,7 +39,7 @@ contract Task2 with Deployable {
   receive(msg: Bounced) {
     send(SendParameters{  
       to: msg.sender, 
-      value: value,
+      value: self.value,
       mode: SendIgnoreErrors
     });
 
