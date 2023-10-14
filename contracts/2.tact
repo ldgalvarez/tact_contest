@@ -49,7 +49,7 @@ contract Task2 with Deployable {
 
     send(SendParameters{
       to: self.admin, 
-      vaule: coin,
+      value: coin,
       mode: SendIgnoreErrors, 
       bounce: true,
       body: body
