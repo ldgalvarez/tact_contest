@@ -35,18 +35,14 @@ contract Task2 with Deployable {
   }
   
   receive(msg: Bounced) {
-    send(SendParameters{
-      to: msg.sender, 
-      value: ton("0.01"),
-      mode: SendIgnoreErrors
-    });
   }
 
   receive(msg: Slice) {
-
+    let mess: cell = beginCell().storeSlice(msg).endCell();
     let data: Builder = beginCell();
     data.storeAddress(sender());
-    data.storeSlice(msg);
+    data.storeRef(mess);
+    
 
     let body: Cell = data.endCell();
     let coin: Int = ton("0.01");
