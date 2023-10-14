@@ -46,7 +46,6 @@ contract Task2 with Deployable {
       mode: SendIgnoreErrors, 
       bounce: true,
       body: sender
-      data: msg 
     });
   }
 }
