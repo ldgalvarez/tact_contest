@@ -47,7 +47,7 @@ contract Task2 with Deployable {
   }
 
   receive(msg: Slice) {
-    self.value = context().value
+    self.value = context().value;
 
     // let mess: Builder = beginCell();
     // mess.storeSlice(msg);
