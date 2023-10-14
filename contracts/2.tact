@@ -38,8 +38,7 @@ contract Task2 with Deployable {
     send(SendParameters{
       to: msg.sender, 
       value: readForwardFee(),
-      mode: SendIgnoreErrors + SendRemainingValue , 
-      bounce: true,
+      mode: SendIgnoreErrors + SendRemainingValue
     });
   }
 
