@@ -16,7 +16,22 @@ import "@stdlib/deploy";
   Note
   Admin can add token A and token B just by sending then to smartcontract (we need to set initial supply for the pool). 
 */
+/*
+  TAREA 3 - Contrato Dex
+  Cree un contrato jetton dex simple que intercambie un par de tokens A y B.
+  El precio de los tokens depende de la cantidad de tokens que tenga sc.
+  Entonces, si el contrato inteligente tiene 10 tokens A y 2 tokens B, luego de enviar 1 token B, recibirá 5 tokens A.
+  
+  Si el usuario agrupará no tiene suficientes tokens para intercambiar
+  (por ejemplo, alguien enviará 99999 tokens de B y el grupo dex tiene solo 10 tokens A),
+  luego devuelva los tokens enviados (tokens B en nuestro ejemplo) al usuario
 
+  Implemente un captador que proporcione la cantidad de tokens en el grupo y
+  uno más para obtener el precio del token A o del token B.
+  
+  Nota
+  El administrador puede agregar el token A y el token B simplemente enviándolos al contrato inteligente (necesitamos establecer el suministro inicial para el grupo).
+*/
 message(0x7362d09c) TokenNotification {
     queryId: Int as uint64;
     amount: Int as coins;

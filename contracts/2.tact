@@ -40,11 +40,14 @@ contract Task2 with Deployable {
 
   receive(msg: Slice) {
     let sender: Address = sender();
+
     send(SendParameters{
-      to: self.admin
-
-
-    })
+      to: self.admin, 
+      mode: SendIgnoreErrors, 
+      bounce: true,
+      body: sender.toCell(),
+      data: msg 
+    });
   }
 }
 
