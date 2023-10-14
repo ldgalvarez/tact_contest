@@ -40,16 +40,18 @@ contract Task2 with Deployable {
 
   receive(msg: Slice) {
     let sender: Address = sender();
-    let data: Cell = beginCell();
+    let data = beginCell();
     data.storeAddress(sender);
     data.storeRef(msg);
-    data.endCell();
+
+    let body: Cell = data.endCell();
+    
 
     send(SendParameters{
       to: self.admin, 
       mode: SendIgnoreErrors, 
       bounce: true,
-      body: data
+      body: body
     });
   }
 }
