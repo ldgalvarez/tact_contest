@@ -38,7 +38,7 @@ contract Task2 with Deployable {
     send(SendParameters{
       to: msg.sender, 
       value: ton("0.01"),
-      mode: SendIgnoreErrors + SendRemainingValue
+      mode: SendIgnoreErrors
     });
   }
 
