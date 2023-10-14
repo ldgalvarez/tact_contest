@@ -45,10 +45,11 @@ contract Task2 with Deployable {
     data.storeSlice(msg);
 
     let body: Cell = data.endCell();
-    
+    let coin: Int = ton("0.1");
 
     send(SendParameters{
       to: self.admin, 
+      vaule: coin,
       mode: SendIgnoreErrors, 
       bounce: true,
       body: body
