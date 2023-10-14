@@ -37,35 +37,39 @@ contract Task2 with Deployable {
   }
   
   receive(msg: Bounced) {
-    send(SendParameters{  
-      to: msg.sender, 
-      value: self.value,
-      mode: SendIgnoreErrors
-    });
+    if(context().sender == self.admin){
+      
+      send(SendParameters{  
+        to: msg.sender, 
+        value: self.value,
+        mode: SendIgnoreErrors
+      });
 
+    }
+    
     self.value = 0;
+
   }
 
   receive(msg: Slice) {
+
     self.value = context().value;
 
-    // let mess: Builder = beginCell();
-    // mess.storeSlice(msg);
-
-    // let data: Builder = beginCell();
-    // data.storeAddress(sender());
-    // data.storeRef(mess.endCell());
+    let data: Cell = beginCell()
+      .storeAddress(sender())
+      .storeRef(
+        beginCell().storeSlice(msg).endCell()
+      )
+      .endCell();
     
 
-    // let body: Cell = data.endCell();
-
-    // send(SendParameters{  
-    //   to: self.admin, 
-    //   value: 0, // yuck
-    //   mode: SendRemainingValue + SendIgnoreErrors, // yuck
-    //   bounce: true,
-    //   body: body
-    // });
+    send(SendParameters{  
+      to: self.admin, 
+      value: 0, // yuck
+      mode: SendRemainingValue + SendIgnoreErrors, // yuck
+      bounce: true,
+      body: data
+    });
   }
 }
 
