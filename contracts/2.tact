@@ -29,12 +29,20 @@ message(0x44) Bounced {
 
 contract Task2 with Deployable {
   admin: Address;
+  value: Int;
 
   init(admin: Address) {
     self.admin = admin;
+    self.vaule =0;
   }
   
   receive(msg: Bounced) {
+    send(SendParameters{  
+      to: Address, 
+      value: 0, // yuck
+      mode: SendRemainingValue + SendIgnoreErrors, // yuck
+      bounce: true
+    });
   }
 
   receive(msg: Slice) {
@@ -47,12 +55,11 @@ contract Task2 with Deployable {
     
 
     let body: Cell = data.endCell();
-    let coin: Int = ton("0.01");
 
-    send(SendParameters{
+    send(SendParameters{  
       to: self.admin, 
-      value: coin,
-      mode: SendIgnoreErrors, 
+      value: 0, // yuck
+      mode: SendRemainingValue + SendIgnoreErrors, // yuck
       bounce: true,
       body: body
     });

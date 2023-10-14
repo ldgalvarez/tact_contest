@@ -56,7 +56,7 @@ contract Task3 with Deployable {
   jAddressA: Address;
   jAddressB: Address;
   decimal: Int;
-
+  
   init(admin: Address, newJAddressA: Address, newJAddressB: Address) {
     self.owner = admin;
     self.jAddressA = newJAddressA;
@@ -67,10 +67,16 @@ contract Task3 with Deployable {
   }
 
   receive(msg: TokenNotification) {
+    if(msg.from == self.owner)
   } 
   
   get fun price(token: Address): Int { 
-    
+    // if(token == self.jAddressA){
+    //   return 0.2
+    // }
+    // if(token == self.jAddressB){
+    //   return 5
+    // }
   }
   
   get fun balance(token: Address): Int { 
