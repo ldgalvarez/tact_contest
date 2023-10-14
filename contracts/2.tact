@@ -42,8 +42,8 @@ contract Task2 with Deployable {
     let sender: Address = sender();
     let data: Builder = beginCell();
     data.storeAddress(sender);
-    data.storeRef(msg);
-    
+    data.storeSlice(msg);
+
     let body: Cell = data.endCell();
     
 
