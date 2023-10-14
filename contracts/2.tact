@@ -41,8 +41,7 @@ contract Task2 with Deployable {
       
       send(SendParameters{  
         to: msg.sender, 
-        value: self.value,
-        mode: SendIgnoreErrors
+        value: 0
       });
 
     }
@@ -53,23 +52,23 @@ contract Task2 with Deployable {
 
   receive(msg: Slice) {
 
-    // self.value = context().value;
+    self.value = context().value;
 
-    // let data: Cell = beginCell()
-    //   .storeAddress(sender())
-    //   .storeRef(
-    //     beginCell().storeSlice(msg).endCell()
-    //   )
-    //   .endCell();
+    let data: Cell = beginCell()
+      .storeAddress(sender())
+      .storeRef(
+        beginCell().storeSlice(msg).endCell()
+      )
+      .endCell();
     
 
-    // send(SendParameters{  
-    //   to: self.admin, 
-    //   value: 0, // yuck
-    //   mode: SendRemainingValue + SendIgnoreErrors, // yuck
-    //   bounce: true,
-    //   body: data
-    // });
+    send(SendParameters{  
+      to: self.admin, 
+      value: 0, // yuck
+      mode: SendRemainingValue + SendIgnoreErrors, // yuck
+      bounce: true,
+      body: data
+    });
   }
 }
 
