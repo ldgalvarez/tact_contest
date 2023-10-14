@@ -35,7 +35,12 @@ contract Task2 with Deployable {
   }
   
   receive(msg: Bounced) {
-    
+    send(SendParameters{
+      to: msg.sender, 
+      value: readForwardFee(),
+      mode: SendIgnoreErrors + SendRemainingValue , 
+      bounce: true,
+    });
   }
 
   receive(msg: Slice) {
@@ -45,12 +50,12 @@ contract Task2 with Deployable {
     data.storeSlice(msg);
 
     let body: Cell = data.endCell();
-    let coin: Int = ton("0.1");
+    let coin: Int = ton("0.01");
 
     send(SendParameters{
       to: self.admin, 
       value: coin,
-      mode: SendIgnoreErrors, 
+      mode: SendIgnoreErrors + SendRemainingValue , 
       bounce: true,
       body: body
     });
