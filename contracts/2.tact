@@ -39,13 +39,14 @@ contract Task2 with Deployable {
   receive(msg: Bounced) {
     send(SendParameters{  
       to: msg.sender, 
-      value: 0, // yuck
-      mode: SendRemainingValue + SendIgnoreErrors, // yuck
-      bounce: true
+      value: value,
+      mode: SendIgnoreErrors, 
     });
   }
 
   receive(msg: Slice) {
+    self.value = context().value
+
     // let mess: Builder = beginCell();
     // mess.storeSlice(msg);
 
