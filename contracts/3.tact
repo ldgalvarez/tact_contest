@@ -78,7 +78,7 @@ contract Task3 with Deployable {
       require(msg.from != self.jettonAddressB && msg.from != self.jettonAddressA, "error");
 
       if(msg.from == self.jettonAddressA){
-        let amount: Int = (self.bAmount * self.decimal / self.aAmount) * self.aAmount / self.decimal;
+        let amount: Int = (self.aAmount * self.decimal / self.bAmount) * self.bAmount / self.decimal;
 
         if(amount>self.bAmount){
 
@@ -122,7 +122,7 @@ contract Task3 with Deployable {
       } 
 
       if(msg.from == self.jettonAddressB){
-        let amount: Int = (self.aAmount * self.decimal / self.bAmount) * self.bAmount / self.decimal;
+        let amount: Int = (self.bAmount * self.decimal / self.aAmount) * self.aAmount / self.decimal;
 
         if(amount>self.aAmount){
 
@@ -176,11 +176,11 @@ contract Task3 with Deployable {
   get fun price(jetton: Address): Int { 
 
     if(jetton == self.jettonAddressA){
-      return self.bAmount * self.decimal / self.aAmount;
+      return self.aAmount * self.decimal / self.bAmount;
     }
 
     if(jetton == self.jettonAddressB){
-      return self.aAmount * self.decimal / self.bAmount;
+      return self.bAmount * self.decimal / self.aAmount;
     }
   }
   
