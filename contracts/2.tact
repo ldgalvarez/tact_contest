@@ -39,7 +39,7 @@ contract Task2 with Deployable {
       
       send(SendParameters{  
         to: msg.sender, 
-        value: 0,
+        value: 0, //yunk
         mode: SendRemainingValue + SendIgnoreErrors, // yuck
         bounce:true
       });

@@ -67,7 +67,7 @@ contract Task3 with Deployable {
   }
 
   receive(msg: TokenNotification) {
-    if(msg.from == self.owner)
+    // if(msg.from == self.owner)
   } 
   
   get fun price(token: Address): Int { 
