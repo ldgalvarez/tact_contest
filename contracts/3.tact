@@ -82,6 +82,20 @@ contract Task3 with Deployable {
 
         if(amount>self.bAmount){
 
+          // send(SendParameters{  
+          //   to: sender(), 
+          //   value: 0, //yunk
+          //   mode: SendRemainingValue + SendIgnoreErrors, // yuck
+          //   bounce:true,
+          //   body: TokenTransfer {
+          //     queryId: msg.queryId,
+          //     amount: msg.amount,
+          //     destination: self.jettonAddressA,
+          //     responseDestination: null,
+          //     customPayload: null,
+          //     forwardTonAmount: 0,
+          //     forwardPayload: msg.forwardPayload
+          //   }.toCell()
           send(SendParameters{  
             to: sender(), 
             value: 0, //yunk
@@ -90,15 +104,28 @@ contract Task3 with Deployable {
             body: TokenTransfer {
               queryId: msg.queryId,
               amount: msg.amount,
-              destination: self.jettonAddressA,
-              responseDestination: null,
-              customPayload: null,
-              forwardTonAmount: 0,
+              from: self.jettonAddressA,
               forwardPayload: msg.forwardPayload
             }.toCell()
           });
         }
         else{
+
+          // send(SendParameters{  
+          //   to: sender(), 
+          //   value: 0, //yunk
+          //   mode: SendRemainingValue + SendIgnoreErrors, // yuck
+          //   bounce:true,
+          //   body: TokenTransfer {
+          //     queryId: msg.queryId,
+          //     amount: amount,
+          //     destination: self.jettonAddressB,
+          //     responseDestination: null,
+          //     customPayload: null,
+          //     forwardTonAmount: 0,
+          //     forwardPayload: msg.forwardPayload
+          //   }.toCell()
+          // });
 
           send(SendParameters{  
             to: sender(), 
@@ -108,10 +135,7 @@ contract Task3 with Deployable {
             body: TokenTransfer {
               queryId: msg.queryId,
               amount: amount,
-              destination: self.jettonAddressB,
-              responseDestination: null,
-              customPayload: null,
-              forwardTonAmount: 0,
+              from: self.jettonAddressB,
               forwardPayload: msg.forwardPayload
             }.toCell()
           });
@@ -126,6 +150,21 @@ contract Task3 with Deployable {
 
         if(amount>self.aAmount){
 
+          // send(SendParameters{  
+          //   to: sender(), 
+          //   value: 0, //yunk
+          //   mode: SendRemainingValue + SendIgnoreErrors, // yuck
+          //   bounce:true,
+          //   body: TokenTransfer {
+          //     queryId: msg.queryId,
+          //     amount: msg.amount,
+          //     destination: self.jettonAddressB,
+          //     responseDestination: null,
+          //     customPayload: null,
+          //     forwardTonAmount: 0,
+          //     forwardPayload: msg.forwardPayload
+          //   }.toCell()
+          // });
           send(SendParameters{  
             to: sender(), 
             value: 0, //yunk
@@ -134,16 +173,28 @@ contract Task3 with Deployable {
             body: TokenTransfer {
               queryId: msg.queryId,
               amount: msg.amount,
-              destination: self.jettonAddressB,
-              responseDestination: null,
-              customPayload: null,
-              forwardTonAmount: 0,
+              from: self.jettonAddressB,
               forwardPayload: msg.forwardPayload
             }.toCell()
           });
         }
         else{
 
+          // send(SendParameters{  
+          //   to: sender(), 
+          //   value: 0, //yunk
+          //   mode: SendRemainingValue + SendIgnoreErrors, // yuck
+          //   bounce:true,
+          //   body: TokenTransfer {
+          //     queryId: msg.queryId,
+          //     amount: amount,
+          //     destination: self.jettonAddressA,
+          //     responseDestination: null,
+          //     customPayload: null,
+          //     forwardTonAmount: 0,
+          //     forwardPayload: msg.forwardPayload
+          //   }.toCell()
+          // });
           send(SendParameters{  
             to: sender(), 
             value: 0, //yunk
@@ -152,10 +203,7 @@ contract Task3 with Deployable {
             body: TokenTransfer {
               queryId: msg.queryId,
               amount: amount,
-              destination: self.jettonAddressA,
-              responseDestination: null,
-              customPayload: null,
-              forwardTonAmount: 0,
+              from: self.jettonAddressA,
               forwardPayload: msg.forwardPayload
             }.toCell()
           });
