@@ -73,7 +73,7 @@ contract Task3 with Deployable {
         self.aAmount = self.aAmount + msg.amount;
       }
       else{
-        self.bmount = self.bAmount + msg.amount;
+        self.bAmount = self.bAmount + msg.amount;
       }
     }
     else{
