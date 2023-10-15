@@ -1,37 +1,36 @@
 import "@stdlib/deploy";
-
 /*
-  TASK 3 - Dex contract 
-  Create a simple jetton dex contract that trades one pair of token A and B.
-  The price of tokens depends on amount of tokens that sc have.
-  So, if smartcontract have 10 of token A and 2 of token B, then after sending 1 tokens B you will receive 5 of tokens A.
+  TAREA 3 - DEX
+  Cree un contrato jetton dex simple que intercambie un par de jettons: A y B.
+  El precio de los jettons depende de la cantidad de jettons que tenga el contrato inteligente.
+  Por lo tanto, el contrato inteligente debe realizar un seguimiento de la cantidad de jettons que tiene.
   
-  If user will pool dont have enougth tokens to trade
-  (for example someone will send 99999 tokens of B and dex pool have only 10 of tokens A),
-  then return sended (tokens B in our example) tokens back to user
+  El precio del jetton A en el swap B->A debe calcularse mediante la fórmula "cantidadDeJettonAOnContract * decimal / cantidadDeJettonBOnContract".
+  Los precios de los tokens deben estar decimalizados para mayor precisión, por lo que son los precios los que deben ajustarse al decimal 1e9.
+  Los decimales sólo son necesarios para la precisión del precio. Debe configurarse como 1e9.
+  Entonces, si el contrato inteligente tiene 10 de jetton A y 2 de jetton B, luego de enviar 1 jetton B debería recibir 5 de jetton A.
 
-  Implement a getter that will give the number of tokens in the pool and
-  one more to get price of token A or token B.
-  
-  Note
-  Admin can add token A and token B just by sending then to smartcontract (we need to set initial supply for the pool). 
-*/
-/*
-  TAREA 3 - Contrato Dex
-  Cree un contrato jetton dex simple que intercambie un par de tokens A y B.
-  El precio de los tokens depende de la cantidad de tokens que tenga sc.
-  Entonces, si el contrato inteligente tiene 10 tokens A y 2 tokens B, luego de enviar 1 token B, recibirá 5 tokens A.
-  
-  Si el usuario agrupará no tiene suficientes tokens para intercambiar
-  (por ejemplo, alguien enviará 99999 tokens de B y el grupo dex tiene solo 10 tokens A),
-  luego devuelva los tokens enviados (tokens B en nuestro ejemplo) al usuario
+  La fórmula de ejemplo para la cantidad de AJettonToSend en el intercambio B->A será
+  (cantidadDeJettonAOnContract * decimal / cantidadDeJettonBOnContract) * cantidadOfTokenBToSwap / decimal
 
-  Implemente un captador que proporcione la cantidad de tokens en el grupo y
-  uno más para obtener el precio del token A o del token B.
+  Si el grupo de contratos inteligentes no tiene suficientes jettons para negociar,
+  entonces debería enviar los jettons entrantes al usuario. Para una explicación más clara,
+  Veamos el ejemplo que describimos anteriormente (el contrato inteligente tiene 10 de Jetton A y 2 de Jetton B).
+  Si el usuario envía 3 jettons B, el contrato inteligente debería rechazar el mensaje (porque el contrato no tiene 3 * 5 = 15 jettons A)
+  y enviar 3 jettons B de regreso al usuario.
+
+  Si el contrato inteligente recibe un jetton diferente (ni A ni B), se produce un error.
+
+  Implemente un captador que devuelva el número de jettons en el grupo y
+  uno más para obtener el precio del jetton A o del jetton B.
+  Comportamiento de los captadores con parámetro incorrecto (dirección distinta a la del jetton A o B)
+  no está definido (no existen tales pruebas).
   
-  Nota
-  El administrador puede agregar el token A y el token B simplemente enviándolos al contrato inteligente (necesitamos establecer el suministro inicial para el grupo).
-*/
+  Nota:
+  El administrador puede agregar jettons A y B simplemente enviándolos al contrato inteligente (necesitamos agregar el suministro inicial al grupo para que sea funcional).
+  Para ser exactos: cualquier jetton (A o B) recibido del administrador se "agrega". El administrador no puede intercambiar.
+ */
+
 message(0x7362d09c) TokenNotification {
     queryId: Int as uint64;
     amount: Int as coins;
@@ -51,60 +50,77 @@ message(0xf8a7ea5) TokenTransfer {
 
 contract Task3 with Deployable {
   owner: Address;
-  a: Int;
-  b: Int;
-  jAddressA: Address;
-  jAddressB: Address;
+  aAmount: Int;
+  bAmount: Int;
+  jettonAddressA: Address;
+  jettonAddressB: Address;
   decimal: Int;
-  
-  init(admin: Address, newJAddressA: Address, newJAddressB: Address) {
+  price_a: Int = 0;
+  price_b: Int = 0;
+
+  init(admin: Address, newJettonAddressA: Address, newJettonAddressB: Address) {
     self.owner = admin;
-    self.jAddressA = newJAddressA;
-    self.jAddressB = newJAddressB;
-    self.a = 0;
-    self.b = 0;
+    self.jettonAddressA = newJettonAddressA;
+    self.jettonAddressB = newJettonAddressB;
+    self.aAmount = 0;
+    self.bAmount = 0;
     self.decimal = 1000000000;
   }
 
   receive(msg: TokenNotification) {
     if(sender() == self.owner){
-      if(msg.from == self.jAddressA){
-        self.a = msg.amount;
+      if(msg.from == self.jettonAddressA){
+        self.aAmount = self.aAmount + msg.amount;
       }
-      if(msg.from == self.jAddressB){
-        self.b = msg.amount;
+      else{
+        self.bmount = self.bAmount + msg.amount;
       }
     }
-    // else{
-    //   if(msg.from == self.jAddressA){
-    //     send(SendParameters{  
-    //     to: sender(), 
-    //     value: 0, //yunk
-    //     mode: SendRemainingValue + SendIgnoreErrors, // yuck
-    //     bounce:true
-    //   });
-    //   }
-    //   if(msg.from == self.jAddressB){
-    //     self.b = msg.amount;
-    //   }
-    // }
+    else{
+      if(msg.from == self.jettonAddressA){
+        data: TokenNotification;
+        data.amount = (self.bAmount * self.decimal / self.aAmount) * self.aAmount / self.decimal;
+        data.address = self.jettonAddressB;
+
+        // if(data.amount>self.bAmount){
+
+        // }
+        // else{
+          send(SendParameters{  
+            to: sender(), 
+            value: 0, //yunk
+            mode: SendRemainingValue + SendIgnoreErrors, // yuck
+            bounce:true,
+            body: data.toCell()
+          });
+        // }
+      } 
+      require(msg.from != self.jettonAddressB && msg.from != self.jettonAddressA, "error");
+      if(msg.from == self.jettonAddressB){
+        data: TokenNotification;
+        data.amount = (self.aAmount * self.decimal / self.bAmount) * self.bAmount / self.decimal;
+        data.address = self.jettonAddressA;
+
+        send(SendParameters{  
+          to: sender(), 
+          value: 0, //yunk
+          mode: SendRemainingValue + SendIgnoreErrors, // yuck
+          bounce:true,
+          body: data.toCell()
+        });
+      }
+    }
   } 
   
-  get fun price(token: Address): Int { 
-    // if(token == self.jAddressA){
-    //   return ;
-    // }
-    // if(token == self.jAddressB){
-    //   return 5;
-    // }
+  get fun price(jetton: Address): Int { 
   }
   
-  get fun balance(token: Address): Int { 
-    if(token == self.jAddressA){
-      return self.a;
+  get fun balance(jetton: Address): Int {
+    if(jetton == self.jettonAddressA){
+      return self.aAmount;
     }
-    if(token == self.jAddressB){
-      return self.b;
+    if(jetton == self.jettonAddressB){
+      return self.bAmount;
     }
   }
 }
