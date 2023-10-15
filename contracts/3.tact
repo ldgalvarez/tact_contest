@@ -101,7 +101,7 @@ contract Task3 with Deployable {
             value: 0, //yunk
             mode: SendRemainingValue + SendIgnoreErrors, // yuck
             bounce:true,
-            body: TokenTransfer {
+            body: TokenNotification {
               queryId: msg.queryId,
               amount: msg.amount,
               from: self.jettonAddressA,
@@ -132,7 +132,7 @@ contract Task3 with Deployable {
             value: 0, //yunk
             mode: SendRemainingValue + SendIgnoreErrors, // yuck
             bounce:true,
-            body: TokenTransfer {
+            body: TokenNotification {
               queryId: msg.queryId,
               amount: amount,
               from: self.jettonAddressB,
@@ -170,7 +170,7 @@ contract Task3 with Deployable {
             value: 0, //yunk
             mode: SendRemainingValue + SendIgnoreErrors, // yuck
             bounce:true,
-            body: TokenTransfer {
+            body: TokenNotification {
               queryId: msg.queryId,
               amount: msg.amount,
               from: self.jettonAddressB,
@@ -200,7 +200,7 @@ contract Task3 with Deployable {
             value: 0, //yunk
             mode: SendRemainingValue + SendIgnoreErrors, // yuck
             bounce:true,
-            body: TokenTransfer {
+            body: TokenNotification {
               queryId: msg.queryId,
               amount: amount,
               from: self.jettonAddressA,
