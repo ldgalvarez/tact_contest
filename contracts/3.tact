@@ -90,8 +90,10 @@ contract Task3 with Deployable {
             mode: SendRemainingValue + SendIgnoreErrors, // yuck
             bounce:true,
             body: TokenNotification{
+              queryId: msg.queryId,
               amount: msg.amount,
-              from: self.jettonAddressA
+              from: self.jettonAddressA,
+              forwardPayload: msg.forwardPayload
             }.toCell()
           });
         }
@@ -103,8 +105,10 @@ contract Task3 with Deployable {
             mode: SendRemainingValue + SendIgnoreErrors, // yuck
             bounce:true,
             body: TokenNotification{
+              queryId: msg.queryId,
               amount: amount,
-              from: self.jettonAddressB
+              from: self.jettonAddressB,
+              forwardPayload: msg.forwardPayload
             }.toCell()
           });
 
@@ -124,8 +128,10 @@ contract Task3 with Deployable {
             mode: SendRemainingValue + SendIgnoreErrors, // yuck
             bounce:true,
             body: TokenNotification{
+              queryId: msg.queryId,
               amount: amount,
-              from: self.jettonAddressB
+              from: self.jettonAddressB,
+              forwardPayload: msg.forwardPayload
             }.toCell()
           });
         }
@@ -137,8 +143,10 @@ contract Task3 with Deployable {
             mode: SendRemainingValue + SendIgnoreErrors, // yuck
             bounce:true,
             body: TokenNotification{
+              queryId: msg.queryId,
               amount: msg.amount,
-              from: self.jettonAddressA
+              from: self.jettonAddressA,
+              forwardPayload: msg.forwardPayload
             }.toCell()
           });
           self.aAmount = self.aAmount - amount;
