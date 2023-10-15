@@ -92,10 +92,10 @@ contract Task3 with Deployable {
   
   get fun price(token: Address): Int { 
     if(token == self.jAddressA){
-      return 0.2
+      return 0.2;
     }
     if(token == self.jAddressB){
-      return 5
+      return 5;
     }
   }
   
