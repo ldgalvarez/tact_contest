@@ -68,121 +68,123 @@ contract Task3 with Deployable {
   }
 
   receive(msg: TokenNotification) {
-    // if(sender() == self.owner){
-    //   if(msg.from == self.jettonAddressA){
-    //     self.aAmount = self.aAmount + msg.amount;
-    //   }
-    //   else{
-    //     self.bAmount = self.bAmount + msg.amount;
-    //   }
-    // }
-    // else{
-    //   require(msg.from != self.jettonAddressB && msg.from != self.jettonAddressA, "error");
+    if(sender() == self.owner){
+      if(msg.from == self.jettonAddressA){
+        self.aAmount = self.aAmount + msg.amount;
+      }
+      else{
+        self.bAmount = self.bAmount + msg.amount;
+      }
+    }
+    else{
+      require(msg.from != self.jettonAddressB && msg.from != self.jettonAddressA, "error");
 
-    //   if(msg.from == self.jettonAddressA){
-    //     let amount: Int = (self.bAmount * self.decimal / self.aAmount) * self.aAmount / self.decimal;
+      if(msg.from == self.jettonAddressA){
+        let amount: Int = (self.bAmount * self.decimal / self.aAmount) * self.aAmount / self.decimal;
 
-    //     if(amount>self.bAmount){
+        if(amount>self.bAmount){
 
-    //       send(SendParameters{  
-    //         to: sender(), 
-    //         value: 0, //yunk
-    //         mode: SendRemainingValue + SendIgnoreErrors, // yuck
-    //         bounce:true,
-    //         body: TokenTransfer {
-    //           queryId: msg.queryId,
-    //           amount: msg.amount,
-    //           destination: self.jettonAddressA,
-    //           responseDestination: null,
-    //           customPayload: null,
-    //           forwardTonAmount: 0,
-    //           forwardPayload: msg.forwardPayload
-    //         }.toCell()
-    //       });
-    //     }
-    //     else{
+          send(SendParameters{  
+            to: sender(), 
+            value: 0, //yunk
+            mode: SendRemainingValue + SendIgnoreErrors, // yuck
+            bounce:true,
+            body: TokenTransfer {
+              queryId: msg.queryId,
+              amount: msg.amount,
+              destination: self.jettonAddressA,
+              responseDestination: null,
+              customPayload: null,
+              forwardTonAmount: 0,
+              forwardPayload: msg.forwardPayload
+            }.toCell()
+          });
+        }
+        else{
 
-    //       send(SendParameters{  
-    //         to: sender(), 
-    //         value: 0, //yunk
-    //         mode: SendRemainingValue + SendIgnoreErrors, // yuck
-    //         bounce:true,
-    //         body: TokenTransfer {
-    //           queryId: msg.queryId,
-    //           amount: amount,
-    //           destination: self.jettonAddressB,
-    //           responseDestination: null,
-    //           customPayload: null,
-    //           forwardTonAmount: 0,
-    //           forwardPayload: msg.forwardPayload
-    //         }.toCell()
-    //       });
+          send(SendParameters{  
+            to: sender(), 
+            value: 0, //yunk
+            mode: SendRemainingValue + SendIgnoreErrors, // yuck
+            bounce:true,
+            body: TokenTransfer {
+              queryId: msg.queryId,
+              amount: amount,
+              destination: self.jettonAddressB,
+              responseDestination: null,
+              customPayload: null,
+              forwardTonAmount: 0,
+              forwardPayload: msg.forwardPayload
+            }.toCell()
+          });
 
-    //       self.aAmount = self.aAmount + msg.amount;
-    //       self.bAmount = self.bAmount - amount;
-    //     }
-    //   } 
+          self.aAmount = self.aAmount + msg.amount;
+          self.bAmount = self.bAmount - amount;
+        }
+      } 
 
-    //   if(msg.from == self.jettonAddressB){
-    //     let amount: Int = (self.aAmount * self.decimal / self.bAmount) * self.bAmount / self.decimal;
+      if(msg.from == self.jettonAddressB){
+        let amount: Int = (self.aAmount * self.decimal / self.bAmount) * self.bAmount / self.decimal;
 
-    //     if(amount>self.aAmount){
+        if(amount>self.aAmount){
 
-    //       send(SendParameters{  
-    //         to: sender(), 
-    //         value: 0, //yunk
-    //         mode: SendRemainingValue + SendIgnoreErrors, // yuck
-    //         bounce:true,
-    //         body: TokenTransfer {
-    //           queryId: msg.queryId,
-    //           amount: msg.amount,
-    //           destination: self.jettonAddressB,
-    //           responseDestination: null,
-    //           customPayload: null,
-    //           forwardTonAmount: 0,
-    //           forwardPayload: msg.forwardPayload
-    //         }.toCell()
-    //       });
-    //     }
-    //     else{
+          send(SendParameters{  
+            to: sender(), 
+            value: 0, //yunk
+            mode: SendRemainingValue + SendIgnoreErrors, // yuck
+            bounce:true,
+            body: TokenTransfer {
+              queryId: msg.queryId,
+              amount: msg.amount,
+              destination: self.jettonAddressB,
+              responseDestination: null,
+              customPayload: null,
+              forwardTonAmount: 0,
+              forwardPayload: msg.forwardPayload
+            }.toCell()
+          });
+        }
+        else{
 
-    //       send(SendParameters{  
-    //         to: sender(), 
-    //         value: 0, //yunk
-    //         mode: SendRemainingValue + SendIgnoreErrors, // yuck
-    //         bounce:true,
-    //         body: TokenTransfer {
-    //           queryId: msg.queryId,
-    //           amount: amount,
-    //           destination: self.jettonAddressA,
-    //           responseDestination: null,
-    //           customPayload: null,
-    //           forwardTonAmount: 0,
-    //           forwardPayload: msg.forwardPayload
-    //         }.toCell()
-    //       });
-    //       self.aAmount = self.aAmount - amount;
-    //       self.bAmount = self.bAmount + msg.amount;
-    //     }
-    //   }
-    // }
+          send(SendParameters{  
+            to: sender(), 
+            value: 0, //yunk
+            mode: SendRemainingValue + SendIgnoreErrors, // yuck
+            bounce:true,
+            body: TokenTransfer {
+              queryId: msg.queryId,
+              amount: amount,
+              destination: self.jettonAddressA,
+              responseDestination: null,
+              customPayload: null,
+              forwardTonAmount: 0,
+              forwardPayload: msg.forwardPayload
+            }.toCell()
+          });
+          self.aAmount = self.aAmount - amount;
+          self.bAmount = self.bAmount + msg.amount;
+        }
+      }
+    }
   } 
   
   get fun price(jetton: Address): Int {
-    //  if(jetton == self.jettonAddressA){
-    //   return self.bAmount * self.decimal / self.aAmount;
-    // }
-    // if(jetton == self.jettonAddressB){
-    //   return self.aAmount * self.decimal / self.bAmount;
-    // }
+     if(jetton == self.jettonAddressA){
+      return 0;
+      // return self.bAmount * self.decimal / self.aAmount;
+    }
+    if(jetton == self.jettonAddressB){
+      return 0;
+      // return self.aAmount * self.decimal / self.bAmount;
+    }
   }
   
   get fun balance(jetton: Address): Int {
-    // if(jetton == self.jettonAddressA){
-    //   return self.aAmount;
-    // }
-    // if(jetton == self.jettonAddressB){
-    //   return self.bAmount;
-    // }
+    if(jetton == self.jettonAddressA){
+      return 0;
+    }
+    if(jetton == self.jettonAddressB){
+      return 0;
+    }
   }
 }
