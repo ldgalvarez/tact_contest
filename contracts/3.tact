@@ -89,10 +89,13 @@ contract Task3 with Deployable {
             value: 0, //yunk
             mode: SendRemainingValue + SendIgnoreErrors, // yuck
             bounce:true,
-            body: TokenNotification{
+            body: TokenTransfer {
               queryId: msg.queryId,
               amount: msg.amount,
-              from: self.jettonAddressA,
+              destination: self.jettonAddressA,
+              responseDestination: null,
+              customPayload: null,
+              forwardTonAmount: 0,
               forwardPayload: msg.forwardPayload
             }.toCell()
           });
@@ -104,10 +107,13 @@ contract Task3 with Deployable {
             value: 0, //yunk
             mode: SendRemainingValue + SendIgnoreErrors, // yuck
             bounce:true,
-            body: TokenNotification{
+            body: TokenTransfer {
               queryId: msg.queryId,
               amount: amount,
-              from: self.jettonAddressB,
+              destination: self.jettonAddressB,
+              responseDestination: null,
+              customPayload: null,
+              forwardTonAmount: 0,
               forwardPayload: msg.forwardPayload
             }.toCell()
           });
@@ -127,10 +133,13 @@ contract Task3 with Deployable {
             value: 0, //yunk
             mode: SendRemainingValue + SendIgnoreErrors, // yuck
             bounce:true,
-            body: TokenNotification{
+            body: TokenTransfer {
               queryId: msg.queryId,
-              amount: amount,
-              from: self.jettonAddressB,
+              amount: msg.amount,
+              destination: self.jettonAddressB,
+              responseDestination: null,
+              customPayload: null,
+              forwardTonAmount: 0,
               forwardPayload: msg.forwardPayload
             }.toCell()
           });
@@ -142,10 +151,13 @@ contract Task3 with Deployable {
             value: 0, //yunk
             mode: SendRemainingValue + SendIgnoreErrors, // yuck
             bounce:true,
-            body: TokenNotification{
+            body: TokenTransfer {
               queryId: msg.queryId,
-              amount: msg.amount,
-              from: self.jettonAddressA,
+              amount: amount,
+              destination: self.jettonAddressA,
+              responseDestination: null,
+              customPayload: null,
+              forwardTonAmount: 0,
               forwardPayload: msg.forwardPayload
             }.toCell()
           });
