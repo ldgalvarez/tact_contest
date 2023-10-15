@@ -80,7 +80,7 @@ contract Task3 with Deployable {
       require(msg.from != self.jettonAddressB && msg.from != self.jettonAddressA, "error");
 
       if(msg.from == self.jettonAddressA){
-        let amount = (self.bAmount * self.decimal / self.aAmount) * self.aAmount / self.decimal;
+        let amount: Int as coins = (self.bAmount * self.decimal / self.aAmount) * self.aAmount / self.decimal;
 
         if(amount>self.bAmount){
 
@@ -96,7 +96,7 @@ contract Task3 with Deployable {
           });
         }
         else{
-          
+
           send(SendParameters{  
             to: sender(), 
             value: 0, //yunk
@@ -114,7 +114,7 @@ contract Task3 with Deployable {
       } 
 
       if(msg.from == self.jettonAddressB){
-        amount = (self.aAmount * self.decimal / self.bAmount) * self.bAmount / self.decimal;
+        let amount: Int as coins = (self.aAmount * self.decimal / self.bAmount) * self.bAmount / self.decimal;
 
         if(data.amount>self.aAmount){
 
