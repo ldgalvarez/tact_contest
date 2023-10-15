@@ -94,9 +94,9 @@ contract Task3 with Deployable {
     // if(token == self.jAddressA){
     //   return ;
     // }
-    if(token == self.jAddressB){
-      return 5;
-    }
+    // if(token == self.jAddressB){
+    //   return 5;
+    // }
   }
   
   get fun balance(token: Address): Int { 
