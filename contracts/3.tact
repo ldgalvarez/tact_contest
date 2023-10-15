@@ -75,7 +75,7 @@ contract Task3 with Deployable {
       }
     }
     else{
-      // require(msg.from != self.jettonAddressB && msg.from != self.jettonAddressA, "error");
+      require(msg.from == self.jettonAddressB || msg.from == self.jettonAddressA, "error");
 
       if(msg.from == self.jettonAddressA){
         let amount: Int = (self.bAmount * self.decimal / self.aAmount) * msg.amount / self.decimal;
