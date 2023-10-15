@@ -67,16 +67,36 @@ contract Task3 with Deployable {
   }
 
   receive(msg: TokenNotification) {
-    // if(msg.from == self.owner)
+    if(sender() == self.owner){
+      if(msg.from == self.jAddressA){
+        self.a = msg.amount;
+      }
+      if(msg.from == self.jAddressB){
+        self.b = msg.amount;
+      }
+    }
+    // else{
+    //   if(msg.from == self.jAddressA){
+    //     send(SendParameters{  
+    //     to: sender(), 
+    //     value: 0, //yunk
+    //     mode: SendRemainingValue + SendIgnoreErrors, // yuck
+    //     bounce:true
+    //   });
+    //   }
+    //   if(msg.from == self.jAddressB){
+    //     self.b = msg.amount;
+    //   }
+    // }
   } 
   
   get fun price(token: Address): Int { 
-    // if(token == self.jAddressA){
-    //   return 0.2
-    // }
-    // if(token == self.jAddressB){
-    //   return 5
-    // }
+    if(token == self.jAddressA){
+      return 0.2
+    }
+    if(token == self.jAddressB){
+      return 5
+    }
   }
   
   get fun balance(token: Address): Int { 
