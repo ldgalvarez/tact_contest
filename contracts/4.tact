@@ -79,7 +79,7 @@ contract Task4 with Deployable {
   //       }.toCell()
   //     });
   //   }
-  // }
+  }
 
   receive(msg: NftWithdrawal) {
     require(self.nft_owner == sender(),"Invalid sender");
