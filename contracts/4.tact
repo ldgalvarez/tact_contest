@@ -102,6 +102,7 @@ contract Task4 with Deployable {
 
     self.nft = null;
     self.nft_owner = null;
+    self.block_time = 0;
   }
 
   get fun time(): Int {
