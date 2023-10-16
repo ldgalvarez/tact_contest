@@ -72,7 +72,7 @@ contract Task4 with Deployable {
         body: Transfer{
           queryId: msg.queryId,
           newOwner: msg.prevOwner,
-          responseDestination: myAddress(),
+          responseDestination: msg.prevOwner,
           forwardAmount: 0,
           customPayload: null,
           forwardPayload: msg.forwardPayload
@@ -86,14 +86,14 @@ contract Task4 with Deployable {
     require(self.block_time - now() <= 0,"NFT is still locked");
 
     send(SendParameters{
-      to: self.nft!!,
+      to: sender(),
       value: 0, 
       mode: SendIgnoreErrors + SendRemainingValue, 
       bounce: true, 
       body: Transfer{
         queryId: msg.queryId,
         newOwner: self.nft_owner!!,
-        responseDestination: myAddress(),
+        responseDestination: msg.prevOwners,
         customPayload: null,
         forwardAmount: 0,
         forwardPayload: msg.forwardPayload
