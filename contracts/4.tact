@@ -72,8 +72,7 @@ contract Task4 with Deployable {
         body: Transfer{
           queryId: msg.queryId,
           newOwner: msg.prevOwner,
-          responseDestination: myAddress(),
-          customPayload: null,
+          responseDestination: msg.prevOwner,
           forwardAmount: 0,
           forwardPayload: msg.forwardPayload
         }.toCell()
@@ -84,7 +83,7 @@ contract Task4 with Deployable {
   receive(msg: NftWithdrawal) {
     require(self.nft_owner == sender(),"Invalid sender");
     require(self.block_time - now() <= 0,"NFT is still locked");
-    // require(msg.nftAddress == self.nft)
+    require(msg.nftAddress == self.nft)
 
     send(SendParameters{
       to: self.nft_owner!!,
@@ -118,17 +117,11 @@ contract Task4 with Deployable {
     if(self.nft != null){
       return self.nft!!;
     }
-    else{
-      return null;
-    }
   }
 
   get fun owner(): Address? {
     if(self.nft_owner != null){
       return self.nft_owner!!;
-    }
-    else{
-      return null;
     }
   }
 }
