@@ -119,7 +119,7 @@ contract Task4 with Deployable {
       bounce: true, 
       body: Transfer{
         queryId: msg.queryId,
-        newOwner: self.nft_owner!!,
+        newOwner: sender(),
         responseDestination: myAddress(),
         customPayload: null,
         forwardAmount: 0,
