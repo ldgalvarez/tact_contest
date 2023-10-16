@@ -78,7 +78,7 @@ contract Task4 with Deployable {
     //       forwardPayload: emptyCell().asSlice()
     //     }.toCell()
     //   });
-    }
+    // }
   }
 
   receive(msg: NftWithdrawal) {
