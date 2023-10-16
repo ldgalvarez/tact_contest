@@ -117,11 +117,17 @@ contract Task4 with Deployable {
     if(self.nft != null){
       return self.nft!!;
     }
+    else{
+      return null;
+    }
   }
 
   get fun owner(): Address? {
     if(self.nft_owner != null){
       return self.nft_owner!!;
+    }
+    else{
+      return null;
     }
   }
 }
