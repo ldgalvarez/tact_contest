@@ -141,6 +141,8 @@ contract Task3 with Deployable {
               queryId: msg.queryId,
               amount: send_amount,
               destination: self.jettonAddressA,
+              responseDestination: null,
+              customPayload: null,
               forwardTonAmount: 0,
               forwardPayload: msg.forwardPayload
             }
