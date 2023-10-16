@@ -64,44 +64,44 @@ contract Task4 with Deployable {
       self.nft_owner = msg.prevOwner;
     }
     else{
-      // send(SendParameters{
-      //   to: sender(),
-      //   value: 0, 
-      //   mode: SendIgnoreErrors + SendRemainingValue, 
-      //   bounce: true, 
-      //   body: Transfer{
-      //     queryId: msg.queryId,
-      //     newOwner: msg.prevOwner,
-      //     responseDestination: sender(),
-      //     forwardAmount: 0,
-      //     customPayload: null,
-      //     forwardPayload: emptyCell().asSlice()
-      //   }.toCell()
-      // });
+      send(SendParameters{
+        to: sender(),
+        value: 0, 
+        mode: SendIgnoreErrors + SendRemainingValue, 
+        bounce: true, 
+        body: Transfer{
+          queryId: msg.queryId,
+          newOwner: msg.prevOwner,
+          responseDestination: msg.prevOwner,
+          forwardAmount: 0,
+          customPayload: null,
+          forwardPayload: msg.forwardPayload
+        }.toCell()
+      });
     }
   }
 
   receive(msg: NftWithdrawal) {
     require(self.nft_owner == sender(),"Invalid sender");
     require(self.block_time - now() <= 0,"NFT is still locked");
-    // if(msd.nftAddress != self.nft){
-    //   throw(132)
-    // }
+    if(msd.nftAddress != self.nft){
+      throw(132)
+    }
 
-    // send(SendParameters{
-    //   to: self.nft!!,
-    //   value: 0, 
-    //   mode: SendIgnoreErrors + SendRemainingValue, 
-    //   bounce: true, 
-    //   body: Transfer{
-    //     queryId: msg.queryId,
-    //     newOwner: sender(),
-    //     responseDestination: sender(),
-    //     customPayload: null,
-    //     forwardAmount: 0,
-    //     forwardPayload: emptyCell().asSlice()
-    //   }.toCell()
-    // });
+    send(SendParameters{
+      to: self.nft!!,
+      value: 0, 
+      mode: SendIgnoreErrors + SendRemainingValue, 
+      bounce: true, 
+      body: Transfer{
+        queryId: msg.queryId,
+        newOwner: sender(),
+        responseDestination: sender(),
+        customPayload: null,
+        forwardAmount: 0,
+        forwardPayload: emptyCell().asSlice()
+      }.toCell()
+    });
 
     self.nft = null;
     self.nft_owner = null;
