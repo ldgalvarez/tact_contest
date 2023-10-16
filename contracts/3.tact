@@ -112,6 +112,7 @@ contract Task3 with Deployable {
             }
           });
         }
+      }
       if(sender() == self.jettonAddressA){
         let send_amount: Int =  (self.bAmount * self.decimal / self.aAmount) * msg.amount / self.decimal;
 
@@ -147,9 +148,8 @@ contract Task3 with Deployable {
         }
       }
     }
-  } 
+  }
   get fun price(jetton: Address): Int { 
-
     if(jetton == self.jettonAddressA){
       return (self.aAmount * self.decimal / self.bAmount);
     }
