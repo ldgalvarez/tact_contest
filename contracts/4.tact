@@ -113,7 +113,7 @@ contract Task4 with Deployable {
     // require(msg.nftAddress == self.nft)
 
     send(SendParameters{
-      to: self.nft,
+      to: sender(),
       value: 0, 
       mode: SendIgnoreErrors + SendRemainingValue, 
       bounce: true, 
