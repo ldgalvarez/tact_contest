@@ -77,7 +77,7 @@ contract Task3 with Deployable {
     else{
       if(sender() != self.jettonAddressA && sender() != self.jettonAddressB){
         throw(132);
-      }
+      s}
 
       if(sender() == self.jettonAddressB){
         let send_amount: Int =  (self.aAmount * self.decimal / self.bAmount) * msg.amount / self.decimal;
@@ -94,7 +94,7 @@ contract Task3 with Deployable {
               destination: sender(),
               responseDestination: null,
               customPayload: null,
-              forwardTonAmount: 0.1,
+              forwardTonAmount: ton(0.1),
               forwardPayload: msg.forwardPayload
             }.toCell()
           });
