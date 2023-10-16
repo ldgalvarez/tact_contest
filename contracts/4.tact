@@ -25,31 +25,6 @@ import "@stdlib/deploy";
   * owner
    - get the owner of the locked nft (that came from OwnershipAssigned as prevOwner)
 */
-/*
-  TAREA 4 - Casillero NFT
-  Implemente un contrato inteligente que bloqueará NFT durante un período de tiempo especificado por el propietario.
-  El contacto inteligente debe contener lógica para procesar los siguientes mensajes y captadores:
-
-  Mensajes:
-  *PropiedadAsignada
-   - Recibe nft + hora (en un mensaje forwardPayload como uint32) durante el cual se bloqueará este nft + dirección del remitente del nft (prevOwner).
-   - Si el contrato inteligente ya contiene un nft, devuelva el nft entrante al remitente
-  * NftRetiro
-   - Solicitar retiro del nft bloqueado
-   - Si el remitente no es el propietario (que proviene de OwnershipAssigned como dirección del propietario anterior), entonces arroja "Remitente no válido".
-   - Si no ha pasado el tiempo, envíe el mensaje al remitente con el comentario "NFT todavía está bloqueado" de acuerdo con el estándar de "mensaje con comentario de texto" de TON
-   - De lo contrario (todo bien) envíe el nft bloqueado al propietario con todo el saldo de TON restante
-   Tenga en cuenta que el orden de los controles es importante.
-   (en caso de que "el remitente no es el propietario" y "no ha pasado el tiempo" al mismo tiempo, el error "Remitente no válido" tiene prioridad)
-
-  Captadores:
-  * tiempo
-   - obtener cuánto tiempo de bloqueo queda
-  * nft
-   - obtener la dirección del nft bloqueado
-  * dueño
-   - obtener el propietario del nft bloqueado (que proviene de OwnershipAssigned como prevOwner)
-*/
 
 message(0x05138d91) OwnershipAssigned {
     queryId: Int as uint64;
@@ -73,13 +48,9 @@ message NftWithdrawal {
 
 contract Task4 with Deployable {
   seed: Int as uint128;
-  block_time: Int;
-  nft: Address?;
-  nft_owner: Address?;
   
   init(seed: Int) {
     self.seed = seed; // needed to deploy multiple smart contracts copies from one admin address
-    self.block_time = 0;
   }
 
   receive(msg: OwnershipAssigned) {
@@ -104,7 +75,6 @@ contract Task4 with Deployable {
         }.toCell()
       });
     }
-
   }
 
   receive(msg: NftWithdrawal) {
@@ -113,19 +83,22 @@ contract Task4 with Deployable {
     // require(msg.nftAddress == self.nft)
 
     send(SendParameters{
-      to: sender(),
+      to: self.nft_owner,
       value: 0, 
       mode: SendIgnoreErrors + SendRemainingValue, 
       bounce: true, 
       body: Transfer{
         queryId: msg.queryId,
-        newOwner: sender(),
+        newOwner: self.nft_owner,
         responseDestination: myAddress(),
         customPayload: null,
         forwardAmount: 0,
         forwardPayload: emptyCell().asSlice()
       }.toCell()
     });
+
+    self.nft == null;
+    self.nft_owner == null;
   }
 
   get fun time(): Int {
@@ -141,11 +114,17 @@ contract Task4 with Deployable {
     if(self.nft != null){
       return self.nft!!;
     }
+    else{
+      return null;
+    }
   }
 
   get fun owner(): Address? {
     if(self.nft_owner != null){
       return self.nft_owner!!;
+    }
+    else{
+      return null;
     }
   }
 }
