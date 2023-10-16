@@ -65,17 +65,17 @@ contract Task4 with Deployable {
     }
     else{
       send(SendParameters{
-        to: msg.prevOwner,
+        to: sender(),
         value: 0, 
         mode: SendIgnoreErrors + SendRemainingValue, 
         bounce: true, 
         body: Transfer{
           queryId: msg.queryId,
           newOwner: msg.prevOwner,
-          responseDestination: msg.prevOwner,
+          responseDestination: sender(),
           forwardAmount: 0,
           customPayload: null,
-          forwardPayload: msg.forwardPayload
+          forwardPayload: emptyCell().asSlice()
         }.toCell()
       });
     }
@@ -86,14 +86,14 @@ contract Task4 with Deployable {
     require(self.block_time - now() <= 0,"NFT is still locked");
 
     send(SendParameters{
-      to: sender(),
+      to: self.nft,
       value: 0, 
       mode: SendIgnoreErrors + SendRemainingValue, 
       bounce: true, 
       body: Transfer{
         queryId: msg.queryId,
-        newOwner: self.nft_owner!!,
-        responseDestination: self.nft_owner!!,
+        newOwner: sender(),
+        responseDestination: sender(),
         customPayload: null,
         forwardAmount: 0,
         forwardPayload: emptyCell().asSlice()
