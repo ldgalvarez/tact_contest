@@ -86,7 +86,7 @@ contract Task4 with Deployable {
     require(self.block_time - now() <= 0,"NFT is still locked");
 
     send(SendParameters{
-      to: self.nft,
+      to: self.nft!!,
       value: 0, 
       mode: SendIgnoreErrors + SendRemainingValue, 
       bounce: true, 
