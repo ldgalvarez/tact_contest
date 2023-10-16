@@ -113,13 +113,13 @@ contract Task4 with Deployable {
     // require(msg.nftAddress == self.nft)
 
     send(SendParameters{
-      to: msg.,
+      to: self.nft,
       value: 0, 
       mode: SendIgnoreErrors + SendRemainingValue, 
       bounce: true, 
       body: Transfer{
         queryId: msg.queryId,
-        newOwner: msg.prevOwner,
+        newOwner: self.nft_owner,
         responseDestination: myAddress(),
         customPayload: null,
         forwardAmount: 0,
