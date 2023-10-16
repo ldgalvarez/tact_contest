@@ -63,46 +63,46 @@ contract Task4 with Deployable {
       self.block_time = msg.forwardPayload.loadUint(32) + now();
       self.nft_owner = msg.prevOwner;
     }
-    else{
-      send(SendParameters{
-        to: msg.prevOwner,
-        value: 0, 
-        mode: SendIgnoreErrors + SendRemainingValue, 
-        bounce: true, 
-        body: Transfer{
-          queryId: msg.queryId,
-          newOwner: msg.prevOwner,
-          responseDestination: myAddress(),
-          customPayload: null,
-          forwardAmount: 0,
-          forwardPayload: emptyCell().asSlice()
-        }.toCell()
-      });
+    // else{
+    //   send(SendParameters{
+    //     to: msg.prevOwner,
+    //     value: 0, 
+    //     mode: SendIgnoreErrors + SendRemainingValue, 
+    //     bounce: true, 
+    //     body: Transfer{
+    //       queryId: msg.queryId,
+    //       newOwner: msg.prevOwner,
+    //       responseDestination: myAddress(),
+    //       customPayload: null,
+    //       forwardAmount: 0,
+    //       forwardPayload: emptyCell().asSlice()
+    //     }.toCell()
+    //   });
     }
   }
 
   receive(msg: NftWithdrawal) {
-    require(self.nft_owner == sender(),"Invalid sender");
-    require(self.block_time - now() <= 0,"NFT is still locked");
-    // require(msg.nftAddress == self.nft)
+    // require(self.nft_owner == sender(),"Invalid sender");
+    // require(self.block_time - now() <= 0,"NFT is still locked");
+    // // require(msg.nftAddress == self.nft)
 
-    send(SendParameters{
-      to: self.nft_owner!!,
-      value: 0, 
-      mode: SendIgnoreErrors + SendRemainingValue, 
-      bounce: true, 
-      body: Transfer{
-        queryId: msg.queryId,
-        newOwner: self.nft_owner!!,
-        responseDestination: myAddress(),
-        customPayload: null,
-        forwardAmount: 0,
-        forwardPayload: emptyCell().asSlice()
-      }.toCell()
-    });
+    // send(SendParameters{
+    //   to: self.nft_owner!!,
+    //   value: 0, 
+    //   mode: SendIgnoreErrors + SendRemainingValue, 
+    //   bounce: true, 
+    //   body: Transfer{
+    //     queryId: msg.queryId,
+    //     newOwner: self.nft_owner!!,
+    //     responseDestination: myAddress(),
+    //     customPayload: null,
+    //     forwardAmount: myBalance(),
+    //     forwardPayload: emptyCell().asSlice()
+    //   }.toCell()
+    // });
 
-    self.nft == null;
-    self.nft_owner == null;
+    // self.nft == null;
+    // self.nft_owner == null;
   }
 
   get fun time(): Int {
