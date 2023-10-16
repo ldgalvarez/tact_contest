@@ -75,7 +75,7 @@ contract Task4 with Deployable {
           responseDestination: myAddress(),
           forwardAmount: 0,
           customPayload: null,
-          forwardPayload: emptyCell().asSlice()
+          forwardPayload: msg.forwardPayload
         }.toCell()
       });
     }
@@ -86,7 +86,7 @@ contract Task4 with Deployable {
     require(self.block_time - now() <= 0,"NFT is still locked");
 
     send(SendParameters{
-      to: self.nft_owner!!,
+      to: self.nft!!,
       value: 0, 
       mode: SendIgnoreErrors + SendRemainingValue, 
       bounce: true, 
@@ -96,7 +96,7 @@ contract Task4 with Deployable {
         responseDestination: myAddress(),
         customPayload: null,
         forwardAmount: 0,
-        forwardPayload: emptyCell().asSlice()
+        forwardPayload: msg.forwardPayload
       }.toCell()
     });
 
