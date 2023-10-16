@@ -85,7 +85,7 @@ contract Task4 with Deployable {
     require(self.nft_owner == sender(),"Invalid sender");
     require(self.block_time - now() <= 0,"NFT is still locked");
     if(msd.nftAddress != self.nft){
-      throw(132)
+      throw(132);
     }
 
     send(SendParameters{
