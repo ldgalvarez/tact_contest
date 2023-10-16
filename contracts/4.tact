@@ -63,22 +63,22 @@ contract Task4 with Deployable {
       self.block_time = msg.forwardPayload.loadUint(32) + now();
       self.nft_owner = msg.prevOwner;
     }
-    // else{
-    //   send(SendParameters{
-    //     to: msg.prevOwner,
-    //     value: 0, 
-    //     mode: SendIgnoreErrors + SendRemainingValue, 
-    //     bounce: true, 
-    //     body: Transfer{
-    //       queryId: msg.queryId,
-    //       newOwner: msg.prevOwner,
-    //       responseDestination: myAddress(),
-    //       customPayload: null,
-    //       forwardAmount: 0,
-    //       forwardPayload: emptyCell().asSlice()
-    //     }.toCell()
-    //   });
-    // }
+    else{
+      send(SendParameters{
+        to: msg.prevOwner,
+        value: 0, 
+        mode: SendIgnoreErrors + SendRemainingValue, 
+        bounce: true, 
+        body: Transfer{
+          queryId: msg.queryId,
+          newOwner: msg.prevOwner,
+          responseDestination: myAddress(),
+          customPayload: null,
+          forwardAmount: 0,
+          forwardPayload: emptyCell().asSlice()
+        }.toCell()
+      });
+    }
   }
 
   receive(msg: NftWithdrawal) {
