@@ -92,6 +92,8 @@ contract Task3 with Deployable {
               queryId: msg.queryId,
               amount: msg.amount,
               destination: self.jettonAddressA,
+              responseDestination: null,
+              customPayload: null,
               forwardTonAmount: 0,
               forwardPayload: msg.forwardPayload
             }.toCell()
@@ -107,10 +109,16 @@ contract Task3 with Deployable {
               queryId: msg.queryId,
               amount: send_amount,
               destination: self.jettonAddressB,
+              responseDestination: null,
+              customPayload: null,
               forwardTonAmount: 0,
               forwardPayload: msg.forwardPayload
             }.toCell()
           });
+
+          self.aAmount = self.aAmount - send_amount;
+          self.bAmount = self.bAmount + msg.amount;
+
         }
       }
       if(sender() == self.jettonAddressA){
@@ -126,6 +134,8 @@ contract Task3 with Deployable {
               queryId: msg.queryId,
               amount: msg.amount,
               destination: self.jettonAddressB,
+              responseDestination: null,
+              customPayload: null,
               forwardTonAmount: 0,
               forwardPayload: msg.forwardPayload
             }.toCell()
@@ -147,6 +157,10 @@ contract Task3 with Deployable {
               forwardPayload: msg.forwardPayload
             }.toCell()
           });
+
+          self.aAmount = self.aAmount + msg.amount;
+          self.bAmount = self.bAmount - send_amount;
+       
         }
       }
     }
