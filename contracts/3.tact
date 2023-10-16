@@ -94,7 +94,7 @@ contract Task3 with Deployable {
               destination: self.jettonAddressA,
               forwardTonAmount: 0,
               forwardPayload: msg.forwardPayload
-            }.toCell();
+            }.toCell()
           });
         }
         else{
@@ -109,7 +109,7 @@ contract Task3 with Deployable {
               destination: self.jettonAddressB,
               forwardTonAmount: 0,
               forwardPayload: msg.forwardPayload
-            }.toCell();
+            }.toCell()
           });
         }
       }
@@ -128,7 +128,7 @@ contract Task3 with Deployable {
               destination: self.jettonAddressB,
               forwardTonAmount: 0,
               forwardPayload: msg.forwardPayload
-            }.toCell();
+            }.toCell()
           });
         }
         else{
@@ -145,7 +145,7 @@ contract Task3 with Deployable {
               customPayload: null,
               forwardTonAmount: 0,
               forwardPayload: msg.forwardPayload
-            }.toCell();
+            }.toCell()
           });
         }
       }
