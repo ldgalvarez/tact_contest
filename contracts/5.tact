@@ -114,7 +114,7 @@ contract Task5 with Deployable {
 
   receive(msg: OwnershipAssigned) {
     if(msg.prevOwner == self.owner){
-      self.collectoin.set(self.total_nft,sender());
+      self.collection.set(self.total_nft,sender());
       self.total_nft = self.total_nft + 1;
     }
     else{
