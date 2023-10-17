@@ -117,52 +117,52 @@ contract Task5 with Deployable {
       self.collection.set(self.total_nft,sender());
       self.total_nft = self.total_nft + 1;
     }
-    // else{
-    //   if(context().value < ton("2.1") && context().value >= context().readForwardFee()){ // tengo que poner el requisito de que tiene que tener un saldo minimo para pagar el reenvolso de nft
-    //     send(SendParameters{
-    //       to: sender(),
-    //       value: 0, 
-    //       mode: SendIgnoreErrors + SendPayGasSeparately, 
-    //       bounce: true, 
-    //       body: Transfer{
-    //         queryId: msg.queryId,
-    //         newOwner: msg.prevOwner,
-    //         responseDestination: msg.prevOwner,
-    //         forwardAmount: 0,
-    //         customPayload: null,
-    //         forwardPayload: emptySlice()
-    //       }.toCell()
-    //     });
-    //   }
-    //   else{
+    else{
+      if(context().value < ton("2.1") && context().value >= context().readForwardFee()){ // tengo que poner el requisito de que tiene que tener un saldo minimo para pagar el reenvolso de nft
+        send(SendParameters{
+          to: sender(),
+          value: 0, 
+          mode: SendIgnoreErrors + SendPayGasSeparately, 
+          bounce: true, 
+          body: Transfer{
+            queryId: msg.queryId,
+            newOwner: msg.prevOwner,
+            responseDestination: msg.prevOwner,
+            forwardAmount: 0,
+            customPayload: null,
+            forwardPayload: emptySlice()
+          }.toCell()
+        });
+      }
+      else{
 
-    //     let nft: Address? = null;
-    //     let number: Int = random(0,self.total_nft + 1);
+        let nft: Address? = null;
+        let number: Int = random(0,self.total_nft + 1);
         
-    //     if(number == self.total_nft + 1){
-    //       nft = sender();
-    //     }
-    //     else{
-    //       nft = self.collection.get(number);
-    //       self.collection.set(number,sender());
-    //     }
+        if(number == self.total_nft + 1){
+          nft = sender();
+        }
+        else{
+          nft = self.collection.get(number);
+          self.collection.set(number,sender());
+        }
 
-    //     send(SendParameters{
-    //       to: nft!!,
-    //       value: ton("0.1") - context().readForwardFee(), 
-    //       mode: SendIgnoreErrors, 
-    //       bounce: true, 
-    //       body: Transfer{
-    //         queryId: msg.queryId,
-    //         newOwner: msg.prevOwner,
-    //         responseDestination: msg.prevOwner,
-    //         forwardAmount: 0,
-    //         customPayload: null,
-    //         forwardPayload: emptyCell().asSlice()
-    //       }.toCell()
-    //     });
-    //   }
-    // }
+        send(SendParameters{
+          to: nft!!,
+          value: ton("0.1") - context().readForwardFee(), 
+          mode: SendIgnoreErrors, 
+          bounce: true, 
+          body: Transfer{
+            queryId: msg.queryId,
+            newOwner: msg.prevOwner,
+            responseDestination: msg.prevOwner,
+            forwardAmount: 0,
+            customPayload: null,
+            forwardPayload: emptyCell().asSlice()
+          }.toCell()
+        });
+      }
+    }
   }
 
   receive(msg: AdminWithdrawalProfit) {
