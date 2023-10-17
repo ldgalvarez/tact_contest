@@ -104,15 +104,15 @@ contract Task4 with Deployable {
       self.nft_owner = null;
       self.block_time = 0;
     }
-  }
-  else{
-    send(SendParameters{
-        to: self.nft_owner!!,
-        value: 0, 
-        mode: SendIgnoreErrors + SendRemainingValue, 
-        bounce: true, 
-        body: "NFT is still locked".asComent()
-    });
+    else{
+      send(SendParameters{
+          to: self.nft_owner!!,
+          value: 0, 
+          mode: SendIgnoreErrors + SendRemainingValue, 
+          bounce: true, 
+          body: "NFT is still locked".asComent()
+      });
+    }
   }
 
   get fun time(): Int {
