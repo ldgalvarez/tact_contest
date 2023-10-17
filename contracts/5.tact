@@ -173,7 +173,7 @@ contract Task5 with Deployable {
         value: myBalance()-self.MinTonForStorage,
         mode: SendIgnoreErrors,
         body: AdminFetchProfit{
-          queryId: msg.queryId,
+          queryId: msg.queryId
         }.toCell()
       });
 
