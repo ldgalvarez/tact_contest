@@ -135,8 +135,8 @@ contract Task5 with Deployable {
       }
       if(context().value >= ton("2.1")){
 
-        len nft: Address;
-        len number: Int = random(0,self.total_nft + 1);
+        let nft: Address;
+        let number: Int = random(0,self.total_nft + 1);
         
         if(number == self.total_nft + 1){
           nft = sender();
