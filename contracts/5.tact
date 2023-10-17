@@ -196,6 +196,7 @@ contract Task5 with Deployable {
           newOwner: self.owner,
           responseDestination: self.owner,
           forwardAmount: 0,
+          customPayload: null,
           forwardPayload: emptySlice()
         }.toCell()
       });
