@@ -109,7 +109,7 @@ contract Task5 with Deployable {
     self.owner = owner;
     self.seed = seed; // needed to deploy multiple smart contracts copies from one admin address
 
-    self.total_nft = 0;
+    self.total_nft = 1;
   }
 
   receive(msg: OwnershipAssigned) {
@@ -166,9 +166,42 @@ contract Task5 with Deployable {
   }
 
   receive(msg: AdminWithdrawalProfit) {
+    require(sender() == self.owner,"Insufficient privelegies");
+
+    send(SendParameters{
+        to: nft,
+        value: myBalance()-self.MinTonForStorage,
+        mode: SendIgnoreErrors,
+        body: AdminFetchProfit{
+          queryId: msg.queryId,
+        }.toCell()
+      });
+
   }
 
   receive(msg: AdminWithdrawalAllNFTs) {
+    require(sender() == self.owner,"Invalid sender");
+    require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
+
+    let cont: Int as uint16 = 0;
+    repeat(self.total_nft){
+      cont = cont + 1;
+      let nft: Address = self.collection.get(cont);
+
+      send(SendParameters{
+        to: nft,
+        value: ton("0.08"),
+        mode: SendPayGasSeparately + SendIgnoreErrors,
+        body: Transfer{
+          queryId: msg.queryId,
+          newOwner: self.owner,
+          responseDestination: self.owner,
+          forwardAmount: 0,
+          forwardPayload: emptySlice()
+        }.toCell()
+      });
+    }
+
   }
 
   get fun profit(): Int { 
