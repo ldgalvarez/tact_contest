@@ -101,7 +101,8 @@ contract Task5 with Deployable {
   seed: Int as uint128;
   owner: Address;
   total_nft: Int as uint16;
-  collection: map<Int as uint16, Address>ñ
+  collection: map<Int as uint16, Address>;
+  const MinTonForStorage: Int = ton("0.01");
   
   init(seed: Int, owner: Address) {
     self.owner = owner;
@@ -170,10 +171,10 @@ contract Task5 with Deployable {
   }
 
   get fun profit(): Int { 
-    return 0;
+    return myBalance()-self.MinTonForStorage;
   }
   
   get fun nfts(): map<Int as uint16, Address> { 
-    return map<Int as uint16, Address>
+    return self.collection;
   }
 }
