@@ -188,7 +188,7 @@ contract Task5 with Deployable {
       cont = cont + 1;
 
       send(SendParameters{
-        to: self.collection.get(cont),
+        to: self.collection.get(cont)!!,
         value: ton("0.08"),
         mode: SendPayGasSeparately + SendIgnoreErrors,
         body: Transfer{
