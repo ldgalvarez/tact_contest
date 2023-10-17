@@ -117,90 +117,90 @@ contract Task5 with Deployable {
       self.collection.set(self.total_nft,sender());
       self.total_nft = self.total_nft + 1;
     }
-    else{
-      if(context().value < ton("2.1") && context().value >= context().readForwardFee()){ // tengo que poner el requisito de que tiene que tener un saldo minimo para pagar el reenvolso de nft
-        send(SendParameters{
-          to: sender(),
-          value: 0, 
-          mode: SendIgnoreErrors + SendPayGasSeparately, 
-          bounce: true, 
-          body: Transfer{
-            queryId: msg.queryId,
-            newOwner: msg.prevOwner,
-            responseDestination: myAddress(),
-            forwardAmount: 0,
-            customPayload: null,
-            forwardPayload: emptySlice()
-          }.toCell()
-        });
-      }
-      else{
+    // else{
+    //   if(context().value < ton("2.1") && context().value >= context().readForwardFee()){ // tengo que poner el requisito de que tiene que tener un saldo minimo para pagar el reenvolso de nft
+    //     send(SendParameters{
+    //       to: sender(),
+    //       value: 0, 
+    //       mode: SendIgnoreErrors + SendPayGasSeparately, 
+    //       bounce: true, 
+    //       body: Transfer{
+    //         queryId: msg.queryId,
+    //         newOwner: msg.prevOwner,
+    //         responseDestination: msg.prevOwner,
+    //         forwardAmount: 0,
+    //         customPayload: null,
+    //         forwardPayload: emptySlice()
+    //       }.toCell()
+    //     });
+    //   }
+    //   else{
 
-        let nft: Address? = null;
-        let number: Int = random(0,self.total_nft + 1);
+    //     let nft: Address? = null;
+    //     let number: Int = random(0,self.total_nft + 1);
         
-        if(number == self.total_nft + 1){
-          nft = sender();
-        }
-        else{
-          nft = self.collection.get(number);
-          self.collection.set(number,sender());
-        }
+    //     if(number == self.total_nft + 1){
+    //       nft = sender();
+    //     }
+    //     else{
+    //       nft = self.collection.get(number);
+    //       self.collection.set(number,sender());
+    //     }
 
-        send(SendParameters{
-          to: nft!!,
-          value: ton("0.1") - context().readForwardFee(), 
-          mode: SendIgnoreErrors, 
-          bounce: true, 
-          body: Transfer{
-            queryId: msg.queryId,
-            newOwner: msg.prevOwner,
-            responseDestination: myAddress(),
-            forwardAmount: 0,
-            customPayload: null,
-            forwardPayload: emptyCell().asSlice()
-          }.toCell()
-        });
-      }
-    }
+    //     send(SendParameters{
+    //       to: nft!!,
+    //       value: ton("0.1") - context().readForwardFee(), 
+    //       mode: SendIgnoreErrors, 
+    //       bounce: true, 
+    //       body: Transfer{
+    //         queryId: msg.queryId,
+    //         newOwner: msg.prevOwner,
+    //         responseDestination: msg.prevOwner,
+    //         forwardAmount: 0,
+    //         customPayload: null,
+    //         forwardPayload: emptyCell().asSlice()
+    //       }.toCell()
+    //     });
+    //   }
+    // }
   }
 
   receive(msg: AdminWithdrawalProfit) {
-    require(sender() == self.owner,"Insufficient privelegies");
+    // require(sender() == self.owner,"Insufficient privelegies");
 
-    send(SendParameters{
-        to: sender(),
-        value: myBalance()-self.MinTonForStorage,
-        mode: SendIgnoreErrors,
-        body: AdminFetchProfit{
-          queryId: msg.queryId
-        }.toCell()
-      });
+    // send(SendParameters{
+    //     to: sender(),
+    //     value: myBalance()-self.MinTonForStorage,
+    //     mode: SendIgnoreErrors,
+    //     body: AdminFetchProfit{
+    //       queryId: msg.queryId
+    //     }.toCell()
+    //   });
 
   }
 
   receive(msg: AdminWithdrawalAllNFTs) {
-    require(sender() == self.owner,"Invalid sender");
-    require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
+    // require(sender() == self.owner,"Invalid sender");
+    // require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
-    let cont: Int = 0;
-    repeat(self.total_nft){
-      cont = cont + 1;
+    // let cont: Int = 0;
+    // repeat(self.total_nft){
+    //   cont = cont + 1;
 
-      send(SendParameters{
-        to: self.collection.get(cont)!!,
-        value: ton("0.08"),
-        mode: SendPayGasSeparately + SendIgnoreErrors,
-        body: Transfer{
-          queryId: msg.queryId,
-          newOwner: self.owner,
-          responseDestination: self.owner,
-          forwardAmount: 0,
-          customPayload: null,
-          forwardPayload: emptySlice()
-        }.toCell()
-      });
-    }
+    //   send(SendParameters{
+    //     to: self.collection.get(cont)!!,
+    //     value: ton("0.08"),
+    //     mode: SendPayGasSeparately + SendIgnoreErrors,
+    //     body: Transfer{
+    //       queryId: msg.queryId,
+    //       newOwner: self.owner,
+    //       responseDestination: self.owner,
+    //       forwardAmount: 0,
+    //       customPayload: null,
+    //       forwardPayload: emptySlice()
+    //     }.toCell()
+    //   });
+    // }
 
   }
 
