@@ -122,19 +122,19 @@ contract Task5 with Deployable {
         send(SendParameters{
           to: sender(),
           value: 0, 
-          mode: SendIgnoreErrors + SendRemainingValue, 
+          mode: SendIgnoreErrors + SendPayGasSeparately, 
           bounce: true, 
           body: Transfer{
             queryId: msg.queryId,
             newOwner: msg.prevOwner,
-            responseDestination: msg.prevOwner,
+            responseDestination: myBalance(),
             forwardAmount: 0,
             customPayload: null,
-            forwardPayload: emptyCell().asSlice()
+            forwardPayload: emptySlice()
           }.toCell()
         });
       }
-      if(context().value >= ton("2.1")){
+      else{
 
         let nft: Address? = null;
         let number: Int = random(0,self.total_nft + 1);
@@ -155,7 +155,7 @@ contract Task5 with Deployable {
           body: Transfer{
             queryId: msg.queryId,
             newOwner: msg.prevOwner,
-            responseDestination: msg.prevOwner,
+            responseDestination: myBalance(),
             forwardAmount: 0,
             customPayload: null,
             forwardPayload: emptyCell().asSlice()
