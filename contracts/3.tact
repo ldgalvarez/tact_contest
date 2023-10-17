@@ -84,15 +84,15 @@ contract Task3 with Deployable {
 
         if(send_amount > self.aAmount){
           send(SendParameters{
-            to: msg.from,
+            to: sender(),
             value: 0, 
             mode: SendIgnoreErrors + SendRemainingValue, 
             bounce: true, 
             body: TokenTransfer{
               queryId: msg.queryId,
               amount: msg.amount,
-              destination: sender(),
-              responseDestination: null,
+              destination: msg.from,
+              responseDestination: msg.from,
               customPayload: null,
               forwardTonAmount: 0,
               forwardPayload: emptyCell().asSlice()
@@ -101,15 +101,15 @@ contract Task3 with Deployable {
         }
         else{
           send(SendParameters{
-            to: msg.from,
+            to: sender(),
             value: 0, 
             mode: SendIgnoreErrors + SendRemainingValue, 
             bounce: true, 
             body: TokenTransfer{
               queryId: msg.queryId,
               amount: send_amount,
-              destination: self.jettonAddressA,
-              responseDestination: null,
+              destination: msg.from,
+              responseDestination: msg.from,
               customPayload: null,
               forwardTonAmount: 0,
               forwardPayload: emptyCell().asSlice()
@@ -120,48 +120,48 @@ contract Task3 with Deployable {
           self.bAmount = self.bAmount + msg.amount;
 
         }
-      // }
-      // if(sender() == self.jettonAddressA){
-      //   let send_amount: Int =  (self.bAmount * self.decimal / self.aAmount) * msg.amount / self.decimal;
+      }
+      if(sender() == self.jettonAddressA){
+        let send_amount: Int =  (self.bAmount * self.decimal / self.aAmount) * msg.amount / self.decimal;
 
-      //   if(send_amount > self.bAmount){
-      //     send(SendParameters{
-      //       to: msg.from,
-      //       value: 0, 
-      //       mode: SendIgnoreErrors + SendRemainingValue, 
-      //       bounce: true, 
-      //       body: TokenTransfer{
-      //         queryId: msg.queryId,
-      //         amount: msg.amount,
-      //         destination: self.jettonAddressA,
-      //         responseDestination: null,
-      //         customPayload: null,
-      //         forwardTonAmount: 0,
-      //         forwardPayload: msg.forwardPayload
-      //       }.toCell()
-      //     });
-      //   }
-      //   else{
-      //     send(SendParameters{
-      //       to: msg.from,
-      //       value: 0, 
-      //       mode: SendIgnoreErrors + SendRemainingValue, 
-      //       bounce: true, 
-      //       body: TokenTransfer{
-      //         queryId: msg.queryId,
-      //         amount: send_amount,
-      //         destination: self.jettonAddressB,
-      //         responseDestination: null,
-      //         customPayload: null,
-      //         forwardTonAmount: 0,
-      //         forwardPayload: msg.forwardPayload
-      //       }.toCell()
-      //     });
+        if(send_amount > self.bAmount){
+          send(SendParameters{
+            to: sender(),
+            value: 0, 
+            mode: SendIgnoreErrors + SendRemainingValue, 
+            bounce: true, 
+            body: TokenTransfer{
+              queryId: msg.queryId,
+              amount: msg.amount,
+              destination: msg.from,
+              responseDestination: msg.from,
+              customPayload: null,
+              forwardTonAmount: 0,
+              forwardPayload: emptyCell().asSlice()
+            }.toCell()
+          });
+        }
+        else{
+          send(SendParameters{
+            to: sender(),
+            value: 0, 
+            mode: SendIgnoreErrors + SendRemainingValue, 
+            bounce: true, 
+            body: TokenTransfer{
+              queryId: msg.queryId,
+              amount: send_amount,
+              destination: msg.from,
+              responseDestination: msg.from,
+              customPayload: null,
+              forwardTonAmount: 0,
+              forwardPayload: emptyCell().asSlice()
+            }.toCell()
+          });
 
-      //     self.aAmount = self.aAmount + msg.amount;
-      //     self.bAmount = self.bAmount - send_amount;
+          self.aAmount = self.aAmount + msg.amount;
+          self.bAmount = self.bAmount - send_amount;
        
-      //   }
+        }
       }
     }
   }
