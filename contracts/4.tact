@@ -110,7 +110,7 @@ contract Task4 with Deployable {
           value: 0, 
           mode: SendIgnoreErrors + SendRemainingValue, 
           bounce: true, 
-          body: "NFT is still locked".asComent()
+          body: "NFT is still locked".asComment()
       });
     }
   }
