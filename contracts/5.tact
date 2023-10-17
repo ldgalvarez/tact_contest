@@ -169,7 +169,7 @@ contract Task5 with Deployable {
     require(sender() == self.owner,"Insufficient privelegies");
 
     send(SendParameters{
-        to: nft!!,
+        to: sender(),
         value: myBalance()-self.MinTonForStorage,
         mode: SendIgnoreErrors,
         body: AdminFetchProfit{
