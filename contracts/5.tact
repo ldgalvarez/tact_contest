@@ -186,10 +186,9 @@ contract Task5 with Deployable {
     let cont: Int = 0;
     repeat(self.total_nft){
       cont = cont + 1;
-      let nft: Address = self.collection.get(cont);
 
       send(SendParameters{
-        to: nft,
+        to: self.collection.get(cont),
         value: ton("0.08"),
         mode: SendPayGasSeparately + SendIgnoreErrors,
         body: Transfer{
