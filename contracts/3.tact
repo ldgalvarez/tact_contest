@@ -81,7 +81,7 @@ contract Task3 with Deployable {
 
         if(send_amount > self.aAmount){
           send(SendParameters{
-            to: jettonAddressB,
+            to: self.jettonAddressB,
             value: 0, 
             mode: SendIgnoreErrors + SendRemainingValue, 
             bounce: true, 
@@ -98,7 +98,7 @@ contract Task3 with Deployable {
         }
         else{
           send(SendParameters{
-            to: jettonAddressA,
+            to: self.jettonAddressA,
             value: 0, 
             mode: SendIgnoreErrors + SendRemainingValue, 
             bounce: true, 
