@@ -113,8 +113,8 @@ contract Task5 with Deployable {
 
   receive(msg: OwnershipAssigned) {
     if(msg.prevOwner == self.owner){
-      collectoin.set(self.total_nft,sender())
-      self.total_nft = self.total_nft + 1
+      collectoin.set(self.total_nft,sender());
+      self.total_nft = self.total_nft + 1;
     }
     else{
       if(context().value < ton("2.1") && context() >= readForwardFee(context())){ // tengo que poner el requisito de que tiene que tener un saldo minimo para pagar el reenvolso de nft
