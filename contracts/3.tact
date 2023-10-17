@@ -19,7 +19,7 @@ import "@stdlib/deploy";
   Si el usuario envía 3 jettons B, el contrato inteligente debería rechazar el mensaje (porque el contrato no tiene 3 * 5 = 15 jettons A)
   y enviar 3 jettons B de regreso al usuario.
 
-  Si el contrato inteligente recibe un jetton diferente (ni A ni B), se produce un error.
+  Si el contrato inteligente recibe un   jetton diferente (ni A ni B), se produce un error.
 
   Implemente un captador que devuelva el número de jettons en el grupo y
   uno más para obtener el precio del jetton A o del jetton B.
@@ -39,13 +39,13 @@ message(0x7362d09c) TokenNotification {
 }
 
 message(0xf8a7ea5) TokenTransfer {
-    queryId: Int as uint64;
-    amount: Int as coins;
-    destination: Address;
-    responseDestination: Address?;
-    customPayload: Cell?;
-    forwardTonAmount: Int as coins;
-    forwardPayload: Slice as remaining;
+     queryId: Int as uint64; // should be 0
+     amount: Int as coins; // should be amount of jettons to send
+     destination: Address; // should be user address / TokenNotification.from
+     responseDestination: Address?; // should be myAddress()
+     customPayload: Cell?; // should be null
+     forwardTonAmount: Int as coins; // should be ton("0.01")
+     forwardPayload: Slice as remaining; // should be emptySlice()
 }
 
 contract Task3 with Deployable {
@@ -66,6 +66,7 @@ contract Task3 with Deployable {
   }
 
   receive(msg: TokenNotification) {
+    require(sender() == self.jettonAddressB || sender() == self.jettonAddressA,"");
     if(msg.from == self.owner){
       if(sender() == self.jettonAddressA){
         self.aAmount = self.aAmount + msg.amount;
@@ -75,44 +76,40 @@ contract Task3 with Deployable {
       }
     }
     else{
-      if(sender() != self.jettonAddressA && sender() != self.jettonAddressB){
-        throw(132);
-      }
-
       if(sender() == self.jettonAddressB){
         let send_amount: Int =  (self.aAmount * self.decimal / self.bAmount) * msg.amount / self.decimal;
 
         if(send_amount > self.aAmount){
           send(SendParameters{
-            to: sender(),
+            to: jettonAddressB,
             value: 0, 
             mode: SendIgnoreErrors + SendRemainingValue, 
             bounce: true, 
             body: TokenTransfer{
-              queryId: msg.queryId,
+              queryId: 0,
               amount: msg.amount,
               destination: msg.from,
-              responseDestination: msg.from,
+              responseDestination: myAddress(),
               customPayload: null,
-              forwardTonAmount: 0,
-              forwardPayload: emptyCell().asSlice()
+              forwardTonAmount: ton("0.01"),
+              forwardPayload: emptySlice()
             }.toCell()
           });
         }
         else{
           send(SendParameters{
-            to: sender(),
+            to: jettonAddressA,
             value: 0, 
             mode: SendIgnoreErrors + SendRemainingValue, 
             bounce: true, 
             body: TokenTransfer{
-              queryId: msg.queryId,
+              queryId: 0,
               amount: send_amount,
               destination: msg.from,
-              responseDestination: msg.from,
+              responseDestination: myAddress(),
               customPayload: null,
-              forwardTonAmount: 0,
-              forwardPayload: emptyCell().asSlice()
+              forwardTonAmount: ton("0.01"),
+              forwardPayload: emptySlice()
             }.toCell()
           });
 
@@ -126,35 +123,35 @@ contract Task3 with Deployable {
 
         if(send_amount > self.bAmount){
           send(SendParameters{
-            to: sender(),
+            to: self.jettonAddressA,
             value: 0, 
             mode: SendIgnoreErrors + SendRemainingValue, 
             bounce: true, 
             body: TokenTransfer{
-              queryId: msg.queryId,
+              queryId: 0,
               amount: msg.amount,
               destination: msg.from,
-              responseDestination: msg.from,
+              responseDestination: myAddress(),
               customPayload: null,
-              forwardTonAmount: 0,
-              forwardPayload: emptyCell().asSlice()
+              forwardTonAmount: ton("0.01"),
+              forwardPayload: emptySlice()
             }.toCell()
           });
         }
         else{
           send(SendParameters{
-            to: sender(),
+            to: self.jettonAddressB,
             value: 0, 
             mode: SendIgnoreErrors + SendRemainingValue, 
             bounce: true, 
             body: TokenTransfer{
-              queryId: msg.queryId,
+             queryId: 0,
               amount: send_amount,
               destination: msg.from,
-              responseDestination: msg.from,
+              responseDestination: myAddress(),
               customPayload: null,
-              forwardTonAmount: 0,
-              forwardPayload: emptyCell().asSlice()
+              forwardTonAmount: ton("0.01"),
+              forwardPayload: emptySlice()
             }.toCell()
           });
 
@@ -167,10 +164,10 @@ contract Task3 with Deployable {
   }
   get fun price(jetton: Address): Int { 
     if(jetton == self.jettonAddressA){
-      return (self.aAmount * self.decimal / self.bAmount);
+      return (self.bAmount * self.decimal / self.aAmount);
     }
     else{
-      return (self.bAmount * self.decimal / self.aAmount);
+      return (self.aAmount * self.decimal / self.bAmount);
     }
   }
   
