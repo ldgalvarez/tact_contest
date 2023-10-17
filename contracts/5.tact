@@ -134,18 +134,18 @@ contract Task5 with Deployable {
     //       }.toCell()
     //     });
     //   }
-      // else{
+      else{
 
-      //   let nft: Address? = null;
-      //   let number: Int = random(0,self.total_nft + 1);
+        let nft: Address? = null;
+        let number: Int = random(0,self.total_nft + 1);
         
-      //   if(number == self.total_nft + 1){
-      //     nft = sender();
-      //   }
-      //   else{
-      //     nft = self.collection.get(number);
-      //     self.collection.set(number,sender());
-      //   }
+        if(number == self.total_nft + 1){
+          nft = sender();
+        }
+        else{
+          nft = self.collection.get(number);
+          self.collection.set(number,sender());
+        }
 
       //   send(SendParameters{
       //     to: nft!!,
@@ -162,7 +162,7 @@ contract Task5 with Deployable {
       //     }.toCell()
       //   });
       // }
-    // }
+    }
   }
 
   receive(msg: AdminWithdrawalProfit) {
