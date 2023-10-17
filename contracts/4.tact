@@ -1,4 +1,4 @@
-// import "@stdlib/deploy";
+import "@stdlib/deploy";
 
 // /*
 //   TASK 4 - NFT locker

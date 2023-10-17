@@ -1,4 +1,4 @@
-// import "@stdlib/deploy";
+import "@stdlib/deploy";
 // /*
 //   TAREA 3 - DEX
 //   Cree un contrato jetton dex simple que intercambie un par de jettons: A y B.
