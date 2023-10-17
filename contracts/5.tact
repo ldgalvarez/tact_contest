@@ -148,7 +148,7 @@ contract Task5 with Deployable {
         }
 
         send(SendParameters{
-          to: nft,
+          to: nft!!,
           value: ton("0.1") - readForwardFee(context()), 
           mode: SendIgnoreErrors, 
           bounce: true, 
@@ -169,7 +169,7 @@ contract Task5 with Deployable {
     require(sender() == self.owner,"Insufficient privelegies");
 
     send(SendParameters{
-        to: nft,
+        to: nft!!,
         value: myBalance()-self.MinTonForStorage,
         mode: SendIgnoreErrors,
         body: AdminFetchProfit{
