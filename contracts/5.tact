@@ -117,23 +117,23 @@ contract Task5 with Deployable {
       self.collection.set(self.total_nft,sender());
       self.total_nft = self.total_nft + 1;
     }
-    // else{
-    //   if(context().value < ton("2.1") && context().value >= context().readForwardFee()){ // tengo que poner el requisito de que tiene que tener un saldo minimo para pagar el reenvolso de nft
-    //     send(SendParameters{
-    //       to: sender(),
-    //       value: 0, 
-    //       mode: SendIgnoreErrors + SendPayGasSeparately, 
-    //       bounce: true, 
-    //       body: Transfer{
-    //         queryId: msg.queryId,
-    //         newOwner: msg.prevOwner,
-    //         responseDestination: msg.prevOwner,
-    //         forwardAmount: 0,
-    //         customPayload: null,
-    //         forwardPayload: emptySlice()
-    //       }.toCell()
-    //     });
-    //   }
+    else{
+      if(context().value < ton("2.1") && context().value >= context().readForwardFee()){ // tengo que poner el requisito de que tiene que tener un saldo minimo para pagar el reenvolso de nft
+        send(SendParameters{
+          to: sender(),
+          value: 0, 
+          mode: SendIgnoreErrors + SendPayGasSeparately, 
+          bounce: true, 
+          body: Transfer{
+            queryId: msg.queryId,
+            newOwner: msg.prevOwner,
+            responseDestination: msg.prevOwner,
+            forwardAmount: 0,
+            customPayload: null,
+            forwardPayload: emptySlice()
+          }.toCell()
+        });
+      }
       else{
 
         let nft: Address? = null;
@@ -147,21 +147,21 @@ contract Task5 with Deployable {
           self.collection.set(number,sender());
         }
 
-      //   send(SendParameters{
-      //     to: nft!!,
-      //     value: ton("0.1") - context().readForwardFee(), 
-      //     mode: SendIgnoreErrors, 
-      //     bounce: true, 
-      //     body: Transfer{
-      //       queryId: msg.queryId,
-      //       newOwner: msg.prevOwner,
-      //       responseDestination: msg.prevOwner,
-      //       forwardAmount: 0,
-      //       customPayload: null,
-      //       forwardPayload: emptyCell().asSlice()
-      //     }.toCell()
-      //   });
-      // }
+        send(SendParameters{
+          to: nft!!,
+          value: ton("0.1") - context().readForwardFee(), 
+          mode: SendIgnoreErrors, 
+          bounce: true, 
+          body: Transfer{
+            queryId: msg.queryId,
+            newOwner: msg.prevOwner,
+            responseDestination: msg.prevOwner,
+            forwardAmount: 0,
+            customPayload: null,
+            forwardPayload: emptyCell().asSlice()
+          }.toCell()
+        });
+      }
     }
   }
 
@@ -201,6 +201,8 @@ contract Task5 with Deployable {
         }.toCell()
       });
     }
+
+    self.collection = emptyMap();
   }
 
   get fun profit(): Int { 
