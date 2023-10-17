@@ -183,7 +183,7 @@ contract Task5 with Deployable {
     require(sender() == self.owner,"Invalid sender");
     require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
-    let cont: Int as uint16 = 0;
+    let cont: Int = 0;
     repeat(self.total_nft){
       cont = cont + 1;
       let nft: Address = self.collection.get(cont);
