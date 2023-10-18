@@ -1,4 +1,4 @@
-import "@stdlib/deploy";
+// import "@stdlib/deploy";
 // /*
 //   TASK 5 - NFT random swap 
 //   The smart contract contains a bunch of different NFTs.
