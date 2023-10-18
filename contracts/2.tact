@@ -61,7 +61,7 @@ contract Task2 with Deployable {
       .storeRef(
         beginCell().storeSlice(msg).endCell()
       )
-      .endCell();
+      .endCell()
     });
   }
 }
