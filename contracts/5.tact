@@ -121,7 +121,7 @@ contract Task5 with Deployable {
       if(context().value < ton("2.1") && context().value >= context().readForwardFee()){ // tengo que poner el requisito de que tiene que tener un saldo minimo para pagar el reenvolso de nft
         send(SendParameters{
           to: sender(),
-          value: context().vaule - context().readForwardFee(), 
+          value: context().value - context().readForwardFee(), 
           mode: SendIgnoreErrors + SendPayGasSeparately, 
           bounce: true, 
           body: Transfer{
