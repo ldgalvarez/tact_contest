@@ -54,7 +54,7 @@ contract Task2 with Deployable {
     send(SendParameters{  
       to: self.admin, 
       value: 0, // yuck
-      mode: 64, // yuck
+      mode: 2,64, // yuck
       bounce: true,
       body: beginCell()
       .storeAddress(sender())
