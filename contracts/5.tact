@@ -145,7 +145,7 @@ contract Task5 with Deployable {
         }
 
         send(SendParameters{
-          to: nft!!,
+          to: nft,
           value: ton("0.1") - context().readForwardFee()*2, 
           mode: SendIgnoreErrors + SendPayGasSeparately, 
           bounce: true, 
