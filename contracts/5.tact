@@ -109,7 +109,7 @@ contract Task5 with Deployable {
     self.owner = owner;
     self.seed = seed; // needed to deploy multiple smart contracts copies from one admin address
 
-    self.total_nft = 1;
+    self.total_nft = 0;
   }
 
   receive(msg: OwnershipAssigned) {
@@ -150,13 +150,13 @@ contract Task5 with Deployable {
         send(SendParameters{
           to: nft!!,
           value: 0, 
-          mode: SendIgnoreErrors, 
+          mode: SendIgnoreErrors + SendPayGasSeparately, 
           bounce: true, 
           body: Transfer{
             queryId: msg.queryId,
             newOwner: msg.prevOwner,
             responseDestination: msg.prevOwner,
-            forwardAmount: ton("0.1") - context().readForwardFee(),
+            forwardAmount: ton("0.1") - context().readForwardFee()*2,
             customPayload: null,
             forwardPayload: emptySlice()
           }.toCell()
@@ -182,7 +182,7 @@ contract Task5 with Deployable {
     require(sender() == self.owner,"Invalid sender");
     require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
-    let cont: Int = 0;
+    let cont: Int =0;
     repeat(self.total_nft){
       cont = cont + 1;
 
