@@ -118,11 +118,11 @@ contract Task5 with Deployable {
       self.total_nft = self.total_nft + 1;
     }
     else{
-      if(context().value < ton("2.1") && context().value >= context().readForwardFee()){ 
+      if(context().value < ton("2.1")){ 
         send(SendParameters{
           to: sender(),
           value: 0, 
-          mode: SendIgnoreErrors + SendIgnoreErrors, 
+          mode: SendIgnoreErrors + SendRemainingValue, 
           bounce: true, 
           body: Transfer{
             queryId: msg.queryId,
@@ -198,6 +198,7 @@ contract Task5 with Deployable {
       });
     }
     
+    self.total_nft = 0;
     self.collection = emptyMap();
   }
 
