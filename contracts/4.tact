@@ -124,14 +124,10 @@ contract Task4 with Deployable {
   }
 
   get fun nft(): Address? {
-    if(self.nft != null){
-      return self.nft;
-    }
+    return self.nft;
   }
 
   get fun owner(): Address? {
-    if(self.nft_owner != null){
-      return self.nft_owner;
-    }
+    return self.nft_owner
   }
 }
