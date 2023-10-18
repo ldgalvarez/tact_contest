@@ -136,8 +136,8 @@ contract Task5 with Deployable {
       }
       else{
 
-        let nft: Address = sender();
         let number: Int = randomInt() % self.total_nft;
+        let nft: Address = sender();
          
         if(number != self.total_nft){
           nft = self.collection.get(number)!!;
@@ -152,7 +152,7 @@ contract Task5 with Deployable {
           body: Transfer{
             queryId: msg.queryId,
             newOwner: msg.prevOwner,
-            responseDestination: msg.prevOwner,
+            responseDestination: myAddress(),
             forwardAmount: 0,
             customPayload: null,
             forwardPayload: emptySlice()
