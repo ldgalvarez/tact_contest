@@ -111,7 +111,7 @@ contract Task3 with Deployable {
             }.toCell()
           });
 
-          self.aAmount = self.aAmount - send_amount;
+          self.aAmount = self.aAmount - ((self.aAmount * self.decimal / self.bAmount) * msg.amount / self.decimal);
           self.bAmount = self.bAmount + msg.amount;
 
         }
@@ -153,7 +153,7 @@ contract Task3 with Deployable {
           });
 
           self.aAmount = self.aAmount + msg.amount;
-          self.bAmount = self.bAmount - send_amount;
+          self.bAmount = self.bAmount - ((self.bAmount * self.decimal / self.aAmount) * msg.amount / self.decimal);
        
         }
       }
