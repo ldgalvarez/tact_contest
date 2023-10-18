@@ -149,14 +149,14 @@ contract Task5 with Deployable {
 
         send(SendParameters{
           to: nft!!,
-          value: 0, 
+          value: ton("0.1") - context().readForwardFee()*2, 
           mode: SendIgnoreErrors + SendPayGasSeparately, 
           bounce: true, 
           body: Transfer{
             queryId: msg.queryId,
             newOwner: msg.prevOwner,
             responseDestination: msg.prevOwner,
-            forwardAmount: ton("0.1") - context().readForwardFee()*2,
+            forwardAmount: 0,
             customPayload: null,
             forwardPayload: emptySlice()
           }.toCell()
