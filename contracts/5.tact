@@ -137,7 +137,7 @@ contract Task5 with Deployable {
       else{
 
         let nft: Address = sender();
-        let number: Int = random(0,self.total_nft);
+        let number: Int = randomInt() % self.total_nft;
          
         if(number != self.total_nft){
           nft = self.collection.get(number)!!;
