@@ -136,13 +136,10 @@ contract Task5 with Deployable {
       }
       else{
 
-        let nft: Address? = null;
         let number: Int = randomInt() % (self.total_nft + 1);
+        let nft: Address = sender();
          
-        if(number == self.total_nft + 1){
-          nft = sender();
-        }
-        else{
+        if(number != self.total_nft + 1){
           nft = self.collection.get(number);
           self.collection.set(number,sender());
         }
@@ -201,7 +198,6 @@ contract Task5 with Deployable {
       });
     }
 
-    self.total_nft = 0;
     self.collection = emptyMap();
   }
 
