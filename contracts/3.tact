@@ -162,22 +162,22 @@ import "@stdlib/deploy";
 //       }
 //     }
 //   }
-//   get fun price(jetton: Address): Int { 
-//     if(jetton == self.jettonAddressA){
-//       return (self.bAmount * self.decimal / self.aAmount);
-//     }
-//     else{
-//       return (self.aAmount * self.decimal / self.bAmount);
-//     }
-//   }
+  // get fun price(jetton: Address): Int { 
+  //   if(jetton == self.jettonAddressA){
+  //     return (self.bAmount * self.decimal / self.aAmount);
+  //   }
+  //   else{
+  //     return (self.aAmount * self.decimal / self.bAmount);
+  //   }
+  // }
   
-//   get fun balance(jetton: Address): Int {
+  // get fun balance(jetton: Address): Int {
 
-//     if(jetton == self.jettonAddressA){
-//       return self.aAmount;
-//     }
-//     else{
-//       return self.bAmount;
-//     }
+  //   if(jetton == self.jettonAddressA){
+  //     return self.aAmount;
+  //   }
+  //   else{
+  //     return self.bAmount;
+  //   }
 //   }
 // }

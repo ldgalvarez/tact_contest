@@ -115,30 +115,30 @@ import "@stdlib/deploy";
 //     }
 //   }
 
-//   get fun time(): Int {
-//     if(self.block_time - now() <= 0){
-//       return 0;
-//     } 
-//     else{
-//       return self.block_time - now();
-//     }
-//   }
+  // get fun time(): Int {
+  //   if(self.block_time - now() <= 0){
+  //     return 0;
+  //   } 
+  //   else{
+  //     return self.block_time - now();
+  //   }
+  // }
 
-//   get fun nft(): Address? {
-//     if(self.nft != null){
-//       return self.nft!!;
-//     }
-//     else{
-//       return null;
-//     }
-//   }
+  // get fun nft(): Address? {
+  //   if(self.nft != null){
+  //     return self.nft!!;
+  //   }
+  //   else{
+  //     return null;
+  //   }
+  // }
 
-//   get fun owner(): Address? {
-//     if(self.nft_owner != null){
-//       return self.nft_owner!!;
-//     }
-//     else{
-//       return null;
-//     }
-//   }
+  // get fun owner(): Address? {
+  //   if(self.nft_owner != null){
+  //     return self.nft_owner!!;
+  //   }
+  //   else{
+  //     return null;
+  //   }
+  // }
 // }
