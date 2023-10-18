@@ -201,7 +201,6 @@ contract Task5 with Deployable {
       });
     }
 
-    self.total_nft = 0;
     self.collection = emptyMap();
   }
 
