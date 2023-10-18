@@ -199,9 +199,9 @@ contract Task5 with Deployable {
     //       forwardPayload: emptySlice()
     //     }.toCell()
     //   });
-    }
+    // }
 
-    self.collection = emptyMap();
+    // self.collection = emptyMap();
   }
 
   get fun profit(): Int { 
