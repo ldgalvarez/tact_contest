@@ -136,8 +136,8 @@ contract Task5 with Deployable {
       }
       else{
 
-        let number: Int = randomInt() % self.total_nft;
         let nft: Address = sender();
+        let number: Int = random(0,self.total_nft);
          
         if(number != self.total_nft){
           nft = self.collection.get(number)!!;
@@ -177,7 +177,7 @@ contract Task5 with Deployable {
 
   receive(msg: AdminWithdrawalAllNFTs) {
     require(sender() == self.owner,"Invalid sender");
-    require(context().value >= context().readForwardFee()* self.total_nft + self.total_nft * ton("0.08"),"Insufficent funds");
+    require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
     let cont: Int =0;
     repeat(self.total_nft){
@@ -197,7 +197,8 @@ contract Task5 with Deployable {
         }.toCell()
       });
     }
-
+    
+    self.total_nft = 0;
     self.collection = emptyMap();
   }
 

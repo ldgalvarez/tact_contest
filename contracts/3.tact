@@ -169,7 +169,6 @@
 //   }
   
 //   get fun balance(jetton: Address): Int {
-
 //     if(jetton == self.jettonAddressA){
 //       return self.aAmount;
 //     }
