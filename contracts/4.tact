@@ -128,6 +128,6 @@ contract Task4 with Deployable {
   }
 
   get fun owner(): Address? {
-    return self.nft_owner
+    return self.nft_owner;
   }
 }
