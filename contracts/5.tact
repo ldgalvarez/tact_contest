@@ -138,7 +138,7 @@ contract Task5 with Deployable {
 
         let nft: Address? = null;
         let number: Int = randomInt() % (self.total_nft + 1);
-        
+         
         if(number == self.total_nft + 1){
           nft = sender();
         }
