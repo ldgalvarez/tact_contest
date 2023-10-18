@@ -139,7 +139,7 @@ contract Task3 with Deployable {
           send(SendParameters{
             to: self.jettonAddressB,
             value: 0, 
-            mode: SendIgnoreErrors + SendRemainingValue, 
+            mode: 64 
             bounce: true, 
             body: TokenTransfer{
              queryId: 0,
