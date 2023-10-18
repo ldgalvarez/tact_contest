@@ -35,7 +35,7 @@ contract Task2 with Deployable {
   }
   
   receive(msg: Bounced) {
-    if(msg.sender == self.admin){
+    if(sender() == self.admin){
       
       send(SendParameters{  
         to: msg.sender, 
@@ -54,7 +54,7 @@ contract Task2 with Deployable {
     send(SendParameters{  
       to: self.admin, 
       value: 0, // yuck
-      mode: 2,64, // yuck
+      mode: 64, // yuck
       bounce: true,
       body: beginCell()
       .storeAddress(sender())
