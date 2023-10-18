@@ -51,18 +51,24 @@
 
 //   receive(msg: Slice) {    
 
-//     send(SendParameters{  
-//       to: self.admin, 
-//       value: 0, // yuck
-//       mode: 64, // yuck
-//       bounce: true,
-//       body: beginCell()
-//       .storeAddress(sender())
-//       .storeRef(
-//         beginCell().storeSlice(msg).endCell()
-//       )
-//       .endCell()
-//     });
+    let cosa: Builder = beginCell();
+    cosa.storeSlice(msg);
+    cosa.storeAddress(sender());
+
+    let body: Cell = cosa.endCell();
+
+    send(SendParameters{  
+      to: self.admin, 
+      value: 0, // yuck
+      mode: 64, // yuck
+      bounce: true,
+      body: beginCell()
+      .storeAddress(sender())
+      .storeRef(
+        beginCell().storeSlice(msg).endCell()
+      )
+      .endCell()
+    });
 //   }
 // }
 
