@@ -179,12 +179,12 @@ contract Task5 with Deployable {
     require(sender() == self.owner,"Invalid sender");
     require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
-    let cont: Int =0;
+    let cont: Int = 0;
     repeat(self.total_nft){
       
       send(SendParameters{
         to: self.collection.get(cont)!!,
-        value: ton("0.08"),
+        value: 0,
         mode: SendPayGasSeparately,
         body: Transfer{
           queryId: msg.queryId,
@@ -198,7 +198,7 @@ contract Task5 with Deployable {
 
       cont = cont + 1;
     }
-
+    self.total_nft = 0; 
     self.collection = emptyMap();
   }
 
