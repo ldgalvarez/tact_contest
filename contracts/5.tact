@@ -201,12 +201,12 @@ contract Task5 with Deployable {
       });
     }
 
+    self.total_nft = 0;
     self.collection = emptyMap();
   }
 
   get fun profit(): Int { 
-    // return myBalance()-self.MinTonForStorage;
-    return 0;
+    return myBalance()-self.MinTonForStorage;
   }
   
   get fun nfts(): map<Int as uint16, Address> { 
