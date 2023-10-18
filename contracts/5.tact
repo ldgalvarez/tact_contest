@@ -184,7 +184,7 @@ contract Task5 with Deployable {
       
       send(SendParameters{
         to: self.collection.get(cont)!!,
-        value: 0,
+        value: ton("0.06"),
         mode: SendPayGasSeparately,
         body: Transfer{
           queryId: msg.queryId,
