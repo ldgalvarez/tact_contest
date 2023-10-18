@@ -181,11 +181,10 @@ contract Task5 with Deployable {
 
     let cont: Int =0;
     repeat(self.total_nft){
-      cont = cont + 1;
       
       send(SendParameters{
         to: self.collection.get(cont)!!,
-        value: 0,
+        value: ton("0.08"),
         mode: SendPayGasSeparately,
         body: Transfer{
           queryId: msg.queryId,
@@ -196,6 +195,8 @@ contract Task5 with Deployable {
           forwardPayload: emptySlice()
         }.toCell()
       });
+
+      cont = cont + 1;
     }
 
     self.collection = emptyMap();
