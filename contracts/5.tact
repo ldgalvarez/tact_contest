@@ -118,7 +118,7 @@ contract Task5 with Deployable {
       self.total_nft = self.total_nft + 1;
     }
     else{
-      if(context().value < ton("2.1") && context().value >= context().readForwardFee()){ // tengo que poner el requisito de que tiene que tener un saldo minimo para pagar el reenvolso de nft
+      if(context().value < ton("2.1") && context().value >= context().readForwardFee()){ 
         send(SendParameters{
           to: sender(),
           value: 0, 
@@ -136,8 +136,8 @@ contract Task5 with Deployable {
       }
       else{
 
-        let nft: Address = sender();
         let number: Int = randomInt() % self.total_nft;
+        let nft: Address = sender();
          
         if(number != self.total_nft){
           nft = self.collection.get(number)!!;
