@@ -179,29 +179,29 @@ contract Task5 with Deployable {
   }
 
   receive(msg: AdminWithdrawalAllNFTs) {
-    // require(sender() == self.owner,"Invalid sender");
-    // require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
+    require(sender() == self.owner,"Invalid sender");
+    require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
-    // let cont: Int =0;
-    // repeat(self.total_nft){
-    //   cont = cont + 1;
+    let cont: Int =0;
+    repeat(self.total_nft){
+      cont = cont + 1;
 
-    //   send(SendParameters{
-    //     to: self.collection.get(cont)!!,
-    //     value: 0,
-    //     mode: SendPayGasSeparately,
-    //     body: Transfer{
-    //       queryId: msg.queryId,
-    //       newOwner: self.owner,
-    //       responseDestination: myAddress(),
-    //       forwardAmount: ton("0.08"),
-    //       customPayload: null,
-    //       forwardPayload: emptySlice()
-    //     }.toCell()
-    //   });
-    // }
+      send(SendParameters{
+        to: self.collection.get(cont)!!,
+        value: 0,
+        mode: SendPayGasSeparately,
+        body: Transfer{
+          queryId: msg.queryId,
+          newOwner: self.owner,
+          responseDestination: myAddress(),
+          forwardAmount: ton("0.08"),
+          customPayload: null,
+          forwardPayload: emptySlice()
+        }.toCell()
+      });
+    }
 
-    // self.collection = emptyMap();
+    self.collection = emptyMap();
   }
 
   get fun profit(): Int { 
