@@ -142,12 +142,14 @@ contract Task5 with Deployable {
         if(number != self.total_nft){
           nft = self.collection.get(number)!!;
           self.collection.set(number,sender());
-        }
+        }  
+
+        nativeReserve(ton("2"), 1);
 
         send(SendParameters{
           to: nft,
-          value: ton("0.1") - context().readForwardFee()*2, 
-          mode: SendIgnoreErrors + SendPayGasSeparately, 
+          value: 0, 
+          mode: SendRemainingValue, 
           bounce: true, 
           body: Transfer{
             queryId: msg.queryId,
@@ -184,8 +186,8 @@ contract Task5 with Deployable {
       
       send(SendParameters{
         to: self.collection.get(cont)!!,
-        value: ton("0.08"),
-        mode: 64,
+        value: ton("0.06"),
+        mode: SendPayGasSeparately,
         body: Transfer{
           queryId: msg.queryId,
           newOwner: self.owner,
