@@ -190,7 +190,7 @@ contract Task5 with Deployable {
       
       send(SendParameters{
         to: self.collection.get(cont)!!,
-        value: ton("0.08")+ context().readForwardFee(),
+        value: ton("0.08"),
         mode: SendPayGasSeparately,
         body: Transfer{
           queryId: msg.queryId,
