@@ -179,7 +179,7 @@ contract Task5 with Deployable {
     require(sender() == self.owner,"Invalid sender");
     require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
-    nativeReserve(context().value,3)
+    nativeReserve(context().value,3);
     
     let cont: Int = 0;
     repeat(self.total_nft){
