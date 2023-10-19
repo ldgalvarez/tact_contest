@@ -52,7 +52,7 @@ import "@stdlib/deploy";
    - SC debe enviar todas las tarifas cobradas al administrador excepto 0,1 TON (use el mensaje AdminFetchProfit como cuerpo)
      En otras palabras: después de cada operación, el saldo del contrato debe ser igual a 0,1 TON (que están reservadas para almacenamiento) y el resto debe enviarse al administrador.
   * AdminRetiroTodos los NFT
-   - SC debe verificar que el valor de tx TON entrante sea suficiente para el retiro de NFT. En concreto, al menos: (1 + totalNftsHeld * 0,08) TONELADAS. De lo contrario, descarte "Fondos insuficientes"
+   - SC debe verificar que el valor de tx TON   entrante sea suficiente para el retiro de NFT. En concreto, al menos: (1 + totalNftsHeld * 0,08) TONELADAS. De lo contrario, descarte "Fondos insuficientes"
    - SC debe verificar que el remitente sea el administrador; de lo contrario, arrojar "Remitente no válido"
    - Si se pasan todas las comprobaciones, SC debe enviar los NFT uno por uno al administrador
    - SC debería poder retirar todos los NFT con un solo mensaje del administrador
@@ -103,7 +103,7 @@ contract Task5 with Deployable {
   owner: Address;
   total_nft: Int as uint16;
   collection: map<Int as uint16, Address>;
-  const MinTonForStorage: Int = ton("0.01");
+  const MinTonForStorage: Int = ton("0.1");
   
   init(seed: Int, owner: Address) {
     self.owner = owner;
@@ -180,7 +180,7 @@ contract Task5 with Deployable {
     require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
     let cont: Int = 0;
-    repeat(self.total_nft - 1){
+    repeat(self.total_nft){
       
       send(SendParameters{
         to: self.collection.get(cont)!!,
@@ -198,20 +198,6 @@ contract Task5 with Deployable {
 
       cont = cont + 1;
     }
-
-    send(SendParameters{
-      to: self.collection.get(cont)!!,
-      value: ton("0.06"),
-      mode: SendRemainingBalance,
-      body: Transfer{
-        queryId: msg.queryId,
-        newOwner: self.owner,
-        responseDestination: self.owner,
-        forwardAmount: 0,
-        customPayload: null,
-        forwardPayload: emptySlice()
-      }.toCell()
-    });
 
     self.total_nft = 0; 
     self.collection = emptyMap();
