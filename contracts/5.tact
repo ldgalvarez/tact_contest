@@ -103,6 +103,7 @@ contract Task5 with Deployable {
   owner: Address;
   total_nft: Int as uint16;
   collection: map<Int as uint16, Address>;
+  const MinTonForStorage: Int = ton("0.01");
   
   init(seed: Int, owner: Address) {
     self.owner = owner;
@@ -121,7 +122,7 @@ contract Task5 with Deployable {
         send(SendParameters{
           to: sender(),
           value: 0, 
-          mode: 64, 
+          mode: SendIgnoreErrors + SendRemainingValue, 
           bounce: true, 
           body: Transfer{
             queryId: msg.queryId,
@@ -135,8 +136,6 @@ contract Task5 with Deployable {
       }
       else{
 
-        nativeReserve(myBalance()+ton("2"), 0);
-
         let number: Int = randomInt() % self.total_nft;
         let nft: Address = sender();
          
@@ -145,11 +144,10 @@ contract Task5 with Deployable {
           self.collection.set(number,sender());
         }
 
-
         send(SendParameters{
           to: nft,
-          value: 0, 
-          mode: 64, 
+          value: ton("0.1") - context().readForwardFee()*2, 
+          mode: SendIgnoreErrors + SendPayGasSeparately, 
           bounce: true, 
           body: Transfer{
             queryId: msg.queryId,
@@ -167,12 +165,10 @@ contract Task5 with Deployable {
   receive(msg: AdminWithdrawalProfit) {
     require(sender() == self.owner,"Insufficient privelegies");
 
-    nativeReserve(ton("0.1"), 0);
-
     send(SendParameters{
         to: sender(),
-        value: myBalance(),
-        mode: 64,
+        value: myBalance()-self.MinTonForStorage,
+        mode: SendIgnoreErrors,
         body: AdminFetchProfit{
           queryId: msg.queryId
         }.toCell()
@@ -184,18 +180,16 @@ contract Task5 with Deployable {
     require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
     let cont: Int = 0;
-    repeat(self.total_nft){   
+    repeat(self.total_nft){
       
-      nativeReserve(ton("1") + self.total_nft * ton("0.08"), 3);
-
       send(SendParameters{
         to: self.collection.get(cont)!!,
-        value: ton("0.08") + context().readForwardFee(),
-        mode: 2,
+        value: ton("0.06"),
+        mode: SendPayGasSeparately,
         body: Transfer{
           queryId: msg.queryId,
           newOwner: self.owner,
-          responseDestination: self.owner,
+          responseDestination: myAddress(),
           forwardAmount: 0,
           customPayload: null,
           forwardPayload: emptySlice()
@@ -208,8 +202,9 @@ contract Task5 with Deployable {
     self.collection = emptyMap();
   }
 
+
   get fun profit(): Int { 
-    return myBalance()-ton("0.1");
+    return myBalance()-self.MinTonForStorage;
   }
   
   get fun nfts(): map<Int as uint16, Address> { 
