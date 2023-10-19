@@ -103,7 +103,6 @@ contract Task5 with Deployable {
   owner: Address;
   total_nft: Int as uint16;
   collection: map<Int as uint16, Address>;
-  const MinTonForStorage: Int = ton("0.01");
   
   init(seed: Int, owner: Address) {
     self.owner = owner;
@@ -122,7 +121,7 @@ contract Task5 with Deployable {
         send(SendParameters{
           to: sender(),
           value: 0, 
-          mode: SendIgnoreErrors + SendRemainingValue, 
+          mode: 64, 
           bounce: true, 
           body: Transfer{
             queryId: msg.queryId,
@@ -144,12 +143,12 @@ contract Task5 with Deployable {
           self.collection.set(number,sender());
         }
 
-        nativeReserve(myBalance()+ton("2"), 1)
+        nativeReserve(myBalance()+ton("2"), 0);
 
         send(SendParameters{
           to: nft,
           value: 0, 
-          mode: SendRemainingValue, 
+          mode: 64, 
           bounce: true, 
           body: Transfer{
             queryId: msg.queryId,
@@ -167,10 +166,12 @@ contract Task5 with Deployable {
   receive(msg: AdminWithdrawalProfit) {
     require(sender() == self.owner,"Insufficient privelegies");
 
+    nativeReserve(ton("0.01"), 0);
+
     send(SendParameters{
         to: sender(),
-        value: myBalance()-self.MinTonForStorage,
-        mode: SendIgnoreErrors,
+        value: myBalance(),
+        mode: 64,
         body: AdminFetchProfit{
           queryId: msg.queryId
         }.toCell()
@@ -184,12 +185,12 @@ contract Task5 with Deployable {
     let cont: Int = 0;
     repeat(self.total_nft){
 
-      nativeReserve(myBalance(), 1);
+      nativeReserve(ton("1") + (self.total_nft + 1) * ton("0.08"),1);
       
       send(SendParameters{
         to: self.collection.get(cont)!!,
-        value: ton("0.06") + context().readForwardFee(),
-        mode: 2,
+        value: ton("0.06") ,
+        mode: 64,
         body: Transfer{
           queryId: msg.queryId,
           newOwner: self.owner,
