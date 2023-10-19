@@ -176,31 +176,33 @@ contract Task5 with Deployable {
   }
 
   receive(msg: AdminWithdrawalAllNFTs) {
-    // require(sender() == self.owner,"Invalid sender");
-    // require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
+    require(sender() == self.owner,"Invalid sender");
+    require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
-    // let cont: Int = 0;
-    // repeat(self.total_nft){
+    nativeReserve(context().value,3)
+    
+    let cont: Int = 0;
+    repeat(self.total_nft){
       
-    //   send(SendParameters{
-    //     to: self.collection.get(cont)!!,
-    //     value: 0,
-    //     mode: SendPayGasSeparately,
-    //     body: Transfer{
-    //       queryId: msg.queryId,
-    //       newOwner: sender(),
-    //       responseDestination: sender(),
-    //       forwardAmount: 0,
-    //       customPayload: null,
-    //       forwardPayload: emptySlice()
-    //     }.toCell()
-    //   });
+      send(SendParameters{
+        to: self.collection.get(cont)!!,
+        value: 0,
+        mode: SendPayGasSeparately,
+        body: Transfer{
+          queryId: msg.queryId,
+          newOwner: sender(),
+          responseDestination: sender(),
+          forwardAmount: 0,
+          customPayload: null,
+          forwardPayload: emptySlice()
+        }.toCell()
+      });
 
-    //   cont = cont + 1;
-    // }
+      cont = cont + 1;
+    }
 
-    // self.total_nft = 0; 
-    // self.collection = emptyMap();
+    self.total_nft = 0; 
+    self.collection = emptyMap();
   }
 
   get fun profit(): Int { 
