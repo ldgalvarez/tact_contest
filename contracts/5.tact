@@ -180,16 +180,16 @@ contract Task5 with Deployable {
     require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
     let cont: Int = 0;
-    repeat(self.total_nft){
+    repeat(self.total_nft - 1){
       
       send(SendParameters{
         to: self.collection.get(cont)!!,
         value: ton("0.06"),
         mode: SendPayGasSeparately,
         body: Transfer{
-          queryId: 0,
+          queryId: msg.queryId,
           newOwner: self.owner,
-          responseDestination: myAddress(),
+          responseDestination: self.owner,
           forwardAmount: 0,
           customPayload: null,
           forwardPayload: emptySlice()
@@ -198,10 +198,24 @@ contract Task5 with Deployable {
 
       cont = cont + 1;
     }
+
+    send(SendParameters{
+      to: self.collection.get(cont)!!,
+      value: ton("0.06"),
+      mode: SendRemainingBalance,
+      body: Transfer{
+        queryId: msg.queryId,
+        newOwner: self.owner,
+        responseDestination: self.owner,
+        forwardAmount: 0,
+        customPayload: null,
+        forwardPayload: emptySlice()
+      }.toCell()
+    });
+
     self.total_nft = 0; 
     self.collection = emptyMap();
   }
-
 
   get fun profit(): Int { 
     return myBalance()-self.MinTonForStorage;
