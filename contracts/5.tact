@@ -143,7 +143,7 @@ contract Task5 with Deployable {
           self.collection.set(number,sender());
         }
 
-        nativeReserve(myBalance()+ton("2"), 0);
+        nativeReserve(ton("2"), 0);
 
         send(SendParameters{
           to: nft,
@@ -190,11 +190,11 @@ contract Task5 with Deployable {
       send(SendParameters{
         to: self.collection.get(cont)!!,
         value: ton("0.06")  ,
-        mode: SendPayGasSeparately,
+        mode: 64,
         body: Transfer{
           queryId: msg.queryId,
           newOwner: self.owner,
-          responseDestination: self.owner,
+          responseDestination: myBalance(),
           forwardAmount: 0,
           customPayload: null,
           forwardPayload: emptySlice()
