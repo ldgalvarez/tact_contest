@@ -102,7 +102,7 @@ contract Task5 with Deployable {
   seed: Int as uint128;
   owner: Address;
   total_nft: Int as uint16;
-  collection: map<Int as uint16, Address>;
+  collection: map<Int as uint16, Address> = emptyMap();
   const MinTonForStorage: Int = ton("0.1");
   
   init(seed: Int, owner: Address) {
@@ -110,7 +110,6 @@ contract Task5 with Deployable {
     self.seed = seed; // needed to deploy multiple smart contracts copies from one admin address
 
     self.total_nft = 0;
-    self.collection = emptyMap();
   }
 
   receive(msg: OwnershipAssigned) {
