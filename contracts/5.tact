@@ -177,18 +177,18 @@ contract Task5 with Deployable {
 
   receive(msg: AdminWithdrawalAllNFTs) {
     require(sender() == self.owner,"Invalid sender");
-    require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
+    require(context().value >= ton("1") + (self.total_nft + 1) * ton("0.08"),"Insufficent funds");
 
     let cont: Int = 0;
     repeat(self.total_nft){
       
       send(SendParameters{
         to: self.collection.get(cont)!!,
-        value: ton("0.06")+ context().readForwardFee(),
-        mode: 2,
+        value: ton("0.06"),
+        mode: SendPayGasSeparately,
         body: Transfer{
           queryId: msg.queryId,
-          newOwner: self.owner,
+          newOwner: sender(),
           responseDestination: myAddress(),
           forwardAmount: 0,
           customPayload: null,
