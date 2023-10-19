@@ -186,11 +186,11 @@ contract Task5 with Deployable {
     let cont: Int = 0;
     repeat(self.total_nft){
 
-      nativeReserve(ton("1") + (self.total_nft) * ton("0.08"),1);
+      nativeReserve(myBalance(),0);
       
       send(SendParameters{
         to: self.collection.get(cont)!!,
-        value: ton("0.08"),
+        value: ton("0.08")+ context().readForwardFee(),
         mode: SendPayGasSeparately,
         body: Transfer{
           queryId: msg.queryId,
