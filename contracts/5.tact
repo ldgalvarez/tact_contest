@@ -102,14 +102,14 @@ contract Task5 with Deployable {
   seed: Int as uint128;
   owner: Address;
   total_nft: Int as uint16;
-  collection: map<Int as uint16, Address> = emptyMap();
-  const MinTonForStorage: Int = ton("0.1");
+  collection: map<Int as uint16, Address>;
   
   init(seed: Int, owner: Address) {
     self.owner = owner;
     self.seed = seed; // needed to deploy multiple smart contracts copies from one admin address
 
     self.total_nft = 0;
+    self.collection = emptyMap();
   }
 
   receive(msg: OwnershipAssigned) {
@@ -167,7 +167,7 @@ contract Task5 with Deployable {
 
     // send(SendParameters{
     //     to: sender(),
-    //     value: myBalance()-self.MinTonForStorage,
+    //     value: myBalance()-ton("0.1"),
     //     mode: SendIgnoreErrors,
     //     body: AdminFetchProfit{
     //       queryId: msg.queryId
@@ -204,7 +204,7 @@ contract Task5 with Deployable {
   }
 
   get fun profit(): Int { 
-    return myBalance()-self.MinTonForStorage;
+    return myBalance() - ton("0.1");
   }
   
   get fun nfts(): map<Int as uint16, Address> { 
