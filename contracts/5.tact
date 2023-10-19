@@ -118,7 +118,7 @@ contract Task5 with Deployable {
       self.total_nft = self.total_nft + 1;
     }
     else{
-      if(context().value < ton("2.1")){
+      if(context().value < ton("2.1") && context().value >= context().readForwardFee()){
         send(SendParameters{
           to: sender(),
           value: 0, 
@@ -184,7 +184,7 @@ contract Task5 with Deployable {
       
       send(SendParameters{
         to: self.collection.get(cont)!!,
-        value: ton("0.06"),
+        value: ton("0.08"),
         mode: SendPayGasSeparately,
         body: Transfer{
           queryId: msg.queryId,
