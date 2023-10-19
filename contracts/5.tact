@@ -208,7 +208,7 @@ contract Task5 with Deployable {
   }
 
   get fun profit(): Int { 
-    return myBalance()-self.MinTonForStorage;
+    return myBalance()-ton("0.01");
   }
   
   get fun nfts(): map<Int as uint16, Address> { 
