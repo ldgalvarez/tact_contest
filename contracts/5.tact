@@ -135,6 +135,8 @@ contract Task5 with Deployable {
       }
       else{
 
+        nativeReserve(ton("2"), 0);
+
         let number: Int = randomInt() % self.total_nft;
         let nft: Address = sender();
          
@@ -143,7 +145,6 @@ contract Task5 with Deployable {
           self.collection.set(number,sender());
         }
 
-        nativeReserve(ton("2"), 0);
 
         send(SendParameters{
           to: nft,
@@ -194,7 +195,7 @@ contract Task5 with Deployable {
         body: Transfer{
           queryId: msg.queryId,
           newOwner: self.owner,
-          responseDestination: myBalance(),
+          responseDestination: myAddress(),
           forwardAmount: 0,
           customPayload: null,
           forwardPayload: emptySlice()
