@@ -135,7 +135,7 @@ contract Task5 with Deployable {
       }
       else{
 
-        nativeReserve(ton("2"), 0);
+        nativeReserve(myBalance()+ton("2"), 0);
 
         let number: Int = randomInt() % self.total_nft;
         let nft: Address = sender();
@@ -184,18 +184,18 @@ contract Task5 with Deployable {
     require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
     let cont: Int = 0;
-    repeat(self.total_nft){
-
-      nativeReserve(myBalance(),0);
+    repeat(self.total_nft){   
       
+      nativeReserve(ton("1") + self.total_nft * ton("0.08"), 3);
+
       send(SendParameters{
         to: self.collection.get(cont)!!,
-        value: ton("0.08")+ context().readForwardFee(),
+        value: ton("0.08") + context().readForwardFee(),
         mode: 2,
         body: Transfer{
           queryId: msg.queryId,
           newOwner: self.owner,
-          responseDestination: myAddress(),
+          responseDestination: self.owner,
           forwardAmount: 0,
           customPayload: null,
           forwardPayload: emptySlice()
