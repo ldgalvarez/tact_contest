@@ -182,7 +182,7 @@ contract Task5 with Deployable {
     let cont: Int = 0;
     repeat(self.total_nft){
 
-      nativeReserve(ton(1), 1);
+      nativeReserve(ton("1"), 1);
       
       send(SendParameters{
         to: self.collection.get(cont)!!,
