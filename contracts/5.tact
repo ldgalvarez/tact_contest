@@ -140,7 +140,7 @@ contract Task5 with Deployable {
         let number: Int = randomInt() % self.total_nft;
         let nft: Address = sender();
          
-        if(number != self.total_nft){
+        if(number < self.total_nft){
           nft = self.collection.get(number)!!;
           self.collection.set(number,sender());
         }
