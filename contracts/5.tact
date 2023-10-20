@@ -205,7 +205,7 @@ contract Task5 with Deployable {
     }
 
     send(SendParameters{
-        to: self.collection.get(self.total_nft)!!,
+        to: self.collection.get(self.total_nft-1)!!,
         value: ton("0.06"),
         mode: 64,
         body: Transfer{
