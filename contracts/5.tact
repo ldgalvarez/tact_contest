@@ -209,7 +209,7 @@ contract Task5 with Deployable {
         mode: 64, 
         bounce: true, 
         body: AdminWithdrawalAllNFTs {
-          queryId: msg.queryId;
+          queryId: msg.queryId
         }.toCell()
       });
     }
