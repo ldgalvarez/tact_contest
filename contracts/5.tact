@@ -116,52 +116,52 @@ contract Task5 with Deployable {
       self.collection.set(self.total_nft,sender());
       self.total_nft = self.total_nft + 1;
     }
-    else{
-      if(context().value < ton("2.1") && context().value >= context().readForwardFee()){
-        send(SendParameters{
-          to: sender(),
-          value: 0, 
-          mode: SendRemainingValue, 
-          bounce: true, 
-          body: Transfer{
-            queryId: msg.queryId,
-            newOwner: msg.prevOwner,
-            responseDestination: msg.prevOwner,
-            forwardAmount: 0,
-            customPayload: null,
-            forwardPayload: emptySlice()
-          }.toCell()
-        });
-      }
-      else{
+    // else{
+    //   if(context().value < ton("2.1") && context().value >= context().readForwardFee()){
+    //     send(SendParameters{
+    //       to: sender(),
+    //       value: 0, 
+    //       mode: SendRemainingValue, 
+    //       bounce: true, 
+    //       body: Transfer{
+    //         queryId: msg.queryId,
+    //         newOwner: msg.prevOwner,
+    //         responseDestination: msg.prevOwner,
+    //         forwardAmount: 0,
+    //         customPayload: null,
+    //         forwardPayload: emptySlice()
+    //       }.toCell()
+    //     });
+    //   }
+    //   else{
 
-        nativeReserve(myBalance()- context().value + ton("2"), 0);
+    //     nativeReserve(myBalance() - context().value + ton("2"), 0);
 
-        let number: Int = randomInt() % self.total_nft;
-        let nft: Address = sender();
+    //     let number: Int = random(0,self.total_nft);
+    //     let nft: Address = sender();
          
-        if(number != self.total_nft){
-          nft = self.collection.get(number)!!;
-          self.collection.set(number,sender());
-        }
+    //     if(number != self.total_nft){
+    //       nft = self.collection.get(number)!!;
+    //       self.collection.set(number,sender());
+    //     }
 
 
-        send(SendParameters{
-          to: nft,
-          value: 0, 
-          mode: 64, 
-          bounce: true, 
-          body: Transfer{
-            queryId: msg.queryId,
-            newOwner: msg.prevOwner,
-            responseDestination: msg.prevOwner,
-            forwardAmount: 0,
-            customPayload: null,
-            forwardPayload: emptySlice()
-          }.toCell()
-        });
-      }
-    }
+    //     send(SendParameters{
+    //       to: nft,
+    //       value: 0, 
+    //       mode: 64, 
+    //       bounce: true, 
+    //       body: Transfer{
+    //         queryId: msg.queryId,
+    //         newOwner: msg.prevOwner,
+    //         responseDestination: msg.prevOwner,
+    //         forwardAmount: 0,
+    //         customPayload: null,
+    //         forwardPayload: emptySlice()
+    //       }.toCell()
+    //     });
+    //   }
+    // }
   }
 
   receive(msg: AdminWithdrawalProfit) {
