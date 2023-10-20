@@ -120,7 +120,7 @@ contract Task5 with Deployable {
     }
     else{
       if(context().value < ton("2.1") && context().value >= context().readForwardFee()){
-        nativeReserve(context().value + ton("2.0"), 3);
+        nativeReserve(context().value, 3);
         send(SendParameters{
           to: sender(),
           value: 0, 
