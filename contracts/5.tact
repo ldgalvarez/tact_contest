@@ -119,8 +119,8 @@ contract Task5 with Deployable {
       self.total_nft = self.total_nft + 1;
     }
     else{
-      nativeReserve(myBalance() - context().value + ton("2.0"), 0);
       if(context().value < ton("2.1") && context().value >= context().readForwardFee()){
+        nativeReserve(context().value + ton("2.0"), 3);
         send(SendParameters{
           to: sender(),
           value: 0, 
@@ -148,8 +148,8 @@ contract Task5 with Deployable {
 
         send(SendParameters{
           to: nft,
-          value: 0, 
-          mode: 64, 
+          value: ton("0.1") - context().readForwardFee()*2, 
+          mode: 3, 
           bounce: true, 
           body: Transfer{
             queryId: msg.queryId,
@@ -199,8 +199,8 @@ contract Task5 with Deployable {
           queryId: msg.queryId,
           newOwner: self.owner,
           responseDestination: self.owner,
-          customPayload: null,
           forwardAmount: 0,
+          customPayload: null,
           forwardPayload: emptySlice()
         }.toCell()
       });
