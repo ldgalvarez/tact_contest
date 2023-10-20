@@ -188,12 +188,12 @@ contract Task5 with Deployable {
       rep = 100;
     }
 
-    nativeReserve(context().value, 3);
+    // nativeReserve(context().value, 3);
   
     repeat(rep){   
       send(SendParameters{
         to: self.collection.get(self.cont)!!,
-        value: ton("0.08"),
+        value: ton("0.06"),
         mode: 2,
         body: Transfer{
           queryId: msg.queryId,
