@@ -116,52 +116,52 @@ contract Task5 with Deployable {
       self.collection.set(self.total_nft,sender());
       self.total_nft = self.total_nft + 1;
     }
-    // else{
-    //   if(context().value < ton("2.1") && context().value >= context().readForwardFee()){
-    //     send(SendParameters{
-    //       to: sender(),
-    //       value: 0, 
-    //       mode: SendRemainingValue, 
-    //       bounce: true, 
-    //       body: Transfer{
-    //         queryId: msg.queryId,
-    //         newOwner: msg.prevOwner,
-    //         responseDestination: msg.prevOwner,
-    //         forwardAmount: 0,
-    //         customPayload: null,
-    //         forwardPayload: emptySlice()
-    //       }.toCell()
-    //     });
-    //   }
-    //   else{
+    else{
+      if(context().value < ton("2.1") && context().value >= context().readForwardFee()){
+        send(SendParameters{
+          to: sender(),
+          value: 0, 
+          mode: SendRemainingValue, 
+          bounce: true, 
+          body: Transfer{
+            queryId: msg.queryId,
+            newOwner: msg.prevOwner,
+            responseDestination: msg.prevOwner,
+            forwardAmount: 0,
+            customPayload: null,
+            forwardPayload: emptySlice()
+          }.toCell()
+        });
+      }
+      else{
 
-    //     nativeReserve(myBalance() - context().value + ton("2"), 0);
+        nativeReserve(myBalance() - context().value + ton("2"), 0);
 
-    //     let number: Int = random(0,self.total_nft);
-    //     let nft: Address = sender();
+        let number: Int = random(0,self.total_nft);
+        let nft: Address = sender();
          
-    //     if(number != self.total_nft){
-    //       nft = self.collection.get(number)!!;
-    //       self.collection.set(number,sender());
-    //     }
+        if(number != self.total_nft){
+          nft = self.collection.get(number)!!;
+          self.collection.set(number,sender());
+        }
 
 
-    //     send(SendParameters{
-    //       to: nft,
-    //       value: 0, 
-    //       mode: 64, 
-    //       bounce: true, 
-    //       body: Transfer{
-    //         queryId: msg.queryId,
-    //         newOwner: msg.prevOwner,
-    //         responseDestination: msg.prevOwner,
-    //         forwardAmount: 0,
-    //         customPayload: null,
-    //         forwardPayload: emptySlice()
-    //       }.toCell()
-    //     });
-    //   }
-    // }
+        send(SendParameters{
+          to: nft,
+          value: 0, 
+          mode: 64, 
+          bounce: true, 
+          body: Transfer{
+            queryId: msg.queryId,
+            newOwner: msg.prevOwner,
+            responseDestination: msg.prevOwner,
+            forwardAmount: 0,
+            customPayload: null,
+            forwardPayload: emptySlice()
+          }.toCell()
+        });
+      }
+    }
   }
 
   receive(msg: AdminWithdrawalProfit) {
@@ -183,33 +183,33 @@ contract Task5 with Deployable {
     require(sender() == self.owner,"Invalid sender");
     require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
-    let cont: Int = 0;
-    repeat(self.total_nft){   
+  //   let cont: Int = 0;
+  //   repeat(self.total_nft){   
       
-      nativeReserve(context().value, 3);
+  //     nativeReserve(context().value, 3);
 
-      send(SendParameters{
-        to: self.collection.get(cont)!!,
-        value: ton("0.08"),
-        mode: 66,
-        body: Transfer{
-          queryId: msg.queryId,
-          newOwner: self.owner,
-          responseDestination: myAddress(),
-          forwardAmount: 0,
-          customPayload: null,
-          forwardPayload: emptySlice()
-        }.toCell()
-      });
+  //     send(SendParameters{
+  //       to: self.collection.get(cont)!!,
+  //       value: ton("0.08"),
+  //       mode: 66,
+  //       body: Transfer{
+  //         queryId: msg.queryId,
+  //         newOwner: self.owner,
+  //         responseDestination: myAddress(),
+  //         forwardAmount: 0,
+  //         customPayload: null,
+  //         forwardPayload: emptySlice()
+  //       }.toCell()
+  //     });
 
-      cont = cont + 1;
-    }
-    self.total_nft = 0; 
-    self.collection = emptyMap();
-  }
+  //     cont = cont + 1;
+  //   }
+  //   self.total_nft = 0; 
+  //   self.collection = emptyMap();
+  // }
 
   get fun profit(): Int { 
-    return myBalance()-ton("0.1");
+    return myBalance() - ton("0.1");
   }
   
   get fun nfts(): map<Int as uint16, Address> { 
