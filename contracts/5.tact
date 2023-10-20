@@ -187,7 +187,7 @@ contract Task5 with Deployable {
   
     repeat(rep){   
       send(SendParameters{
-        to: self.collection.get(cont)!!,
+        to: self.collection.get(self.cont)!!,
         value: ton("0.08"),
         mode: 0,
         body: Transfer{
@@ -199,7 +199,7 @@ contract Task5 with Deployable {
           forwardPayload: emptySlice()
         }.toCell()
       });
-      cont = cont + 1;
+      self.cont = self.cont + 1;
       self.total_nft = self.total_nft - 1;
     }
     if(self.total_nft > 0){
