@@ -192,13 +192,13 @@ contract Task5 with Deployable {
     repeat(rep){   
       send(SendParameters{
         to: self.collection.get(self.cont)!!,
-        value: 0,
-        mode: 64,
+        value: ton("0.08"),
+        mode: 0,
         body: Transfer{
           queryId: msg.queryId,
           newOwner: self.owner,
           responseDestination: myAddress(),
-          forwardAmount: context().value,
+          forwardAmount: 0,
           customPayload: null,
           forwardPayload: emptySlice()
         }.toCell()
