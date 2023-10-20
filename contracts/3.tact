@@ -66,9 +66,7 @@ contract Task3 with Deployable {
   }
 
   receive(msg: TokenNotification) {
-    if(sender() == self.jettonAddressB || sender() == self.jettonAddressA){
-      throw(132);
-    }
+    if(sender() == self.jettonAddressB || sender() == self.jettonAddressA,"");
     if(msg.from == self.owner){
       if(sender() == self.jettonAddressA){
         self.aAmount = self.aAmount + msg.amount;
