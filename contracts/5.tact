@@ -120,8 +120,8 @@ contract Task5 with Deployable {
       if(context().value < ton("2.1") && context().value >= context().readForwardFee()){
         send(SendParameters{
           to: sender(),
-          value: ton("0.08"), 
-          mode: 2, 
+          value: 0, 
+          mode: SendRemainingValue, 
           bounce: true, 
           body: Transfer{
             queryId: msg.queryId,
@@ -186,7 +186,7 @@ contract Task5 with Deployable {
     let cont: Int = 0;
     repeat(self.total_nft){   
       
-      nativeReserve(ton("1") + self.total_nft * ton("0.08"), 3);
+      nativeReserve(context().value, 3);
 
       send(SendParameters{
         to: self.collection.get(cont)!!,
