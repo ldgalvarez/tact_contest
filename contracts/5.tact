@@ -140,10 +140,10 @@ contract Task5 with Deployable {
         let number: Int = randomInt() % (self.total_nft + 1);
         let nft: Address = sender();
          
-        // if(number < self.total_nft){
-        //   nft = self.collection.get(number)!!;
-        //   self.collection.set(number,sender());
-        // }
+        if(number < self.total_nft){
+          nft = self.collection.get(number)!!;
+          self.collection.set(number,sender());
+        }
 
         send(SendParameters{
           to: nft,
@@ -182,52 +182,52 @@ contract Task5 with Deployable {
     require(sender() == self.owner || sender() == myAddress(),"Invalid sender");
     require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
-    // let rep: Int = self.total_nft; 
-    // if(self.total_nft >= 99){
-    //   rep = 99;
-    // }
+    let rep: Int = self.total_nft; 
+    if(self.total_nft >= 99){
+      rep = 99;
+    }
 
-    // nativeReserve(context().value, 3);
+    nativeReserve(context().value, 3);
   
-    // repeat(rep){   
-    //   send(SendParameters{
-    //     to: self.collection.get(self.cont)!!,
-    //     value: ton("0.08"),
-    //     mode: 1,
-    //     body: Transfer{
-    //       queryId: msg.queryId,
-    //       newOwner: self.owner,
-    //       responseDestination: myAddress(),
-    //       forwardAmount: 0,
-    //       customPayload: null,
-    //       forwardPayload: emptySlice()
-    //     }.toCell()
-    //   });
-    //   self.cont = self.cont + 1;
-    //   self.total_nft = self.total_nft - 1;
-    // }
-    // if(self.total_nft > 0){
-    //   send(SendParameters{
-    //     to: myAddress(),
-    //     value: 0, 
-    //     mode: 64, 
-    //     bounce: true, 
-    //     body: AdminWithdrawalAllNFTs {
-    //       queryId: msg.queryId
-    //     }.toCell()
-    //   });
-    // }
-    // else{
-    //   self.cont = 0;
-    //   self.collection = emptyMap();
+    repeat(rep){   
+      send(SendParameters{
+        to: self.collection.get(self.cont)!!,
+        value: ton("0.08"),
+        mode: 64,
+        body: Transfer{
+          queryId: msg.queryId,
+          newOwner: self.owner,
+          responseDestination: myAddress(),
+          forwardAmount: 0,
+          customPayload: null,
+          forwardPayload: emptySlice()
+        }.toCell()
+      });
+      self.cont = self.cont + 1;
+      self.total_nft = self.total_nft - 1;
+    }
+    if(self.total_nft > 0){
+      send(SendParameters{
+        to: myAddress(),
+        value: 0, 
+        mode: 64, 
+        bounce: true, 
+        body: AdminWithdrawalAllNFTs {
+          queryId: msg.queryId
+        }.toCell()
+      });
+    }
+    else{
+      self.cont = 0;
+      self.collection = emptyMap();
       
-    //   send(SendParameters{
-    //     to: self.owner,
-    //     value: 0, 
-    //     mode: 64, 
-    //     bounce: true
-    //   });
-    // }
+      // send(SendParameters{
+      //   to: self.owner,
+      //   value: 0, 
+      //   mode: 64, 
+      //   bounce: true
+      // });
+    }
 
     
   }
