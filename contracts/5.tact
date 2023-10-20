@@ -135,7 +135,7 @@ contract Task5 with Deployable {
       }
       else{
 
-        nativeReserve(myBalance()+ton("2"), 0);
+        nativeReserve(myBalance()+ton("2") - context().value, 0);
 
         let number: Int = randomInt() % (self.total_nft + 1);
         let nft: Address = sender();
@@ -144,7 +144,7 @@ contract Task5 with Deployable {
           nft = self.collection.get(number)!!;
           self.collection.set(number,sender());
         }
-        
+
         send(SendParameters{
           to: nft,
           value: 0, 
