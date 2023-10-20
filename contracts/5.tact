@@ -186,11 +186,11 @@ contract Task5 with Deployable {
       
       send(SendParameters{
         to: self.collection.get(cont)!!,
-        value: ton("0.08"),
-        mode: SendPayGasSeparately,
+        value: ton("0.02"),
+        mode: 0,
         body: Transfer{
           queryId: msg.queryId,
-          newOwner: sender(),
+          newOwner: self.owner,
           responseDestination: myAddress(),
           forwardAmount: 0,
           customPayload: null,
