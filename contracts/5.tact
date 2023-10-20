@@ -183,8 +183,8 @@ contract Task5 with Deployable {
     require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
     let rep: Int = self.total_nft; 
-    if(self.total_nft >= 99){
-      rep = 99;
+    if(self.total_nft >= 200){
+      rep = 200;
     }
 
     nativeReserve(context().value, 3);
@@ -192,7 +192,7 @@ contract Task5 with Deployable {
     repeat(rep){   
       send(SendParameters{
         to: self.collection.get(self.cont)!!,
-        value: ton("0.08"),
+        value: ton("0.06"),
         mode: 64,
         body: Transfer{
           queryId: msg.queryId,
