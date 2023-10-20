@@ -188,7 +188,7 @@ contract Task5 with Deployable {
     repeat(rep){   
       send(SendParameters{
         to: self.collection.get(self.cont)!!,
-        value: ton("0.08"),
+        value: ton("0.1"),
         mode: 0,
         body: Transfer{
           queryId: msg.queryId,
@@ -216,6 +216,13 @@ contract Task5 with Deployable {
     else{
       self.cont = 0;
       self.collection = emptyMap();
+      
+      send(SendParameters{
+        to: self.owner,
+        value: 0, 
+        mode: 64, 
+        bounce: true
+      });
     }
 
     
