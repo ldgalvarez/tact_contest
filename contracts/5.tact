@@ -187,7 +187,7 @@ contract Task5 with Deployable {
       send(SendParameters{
         to: self.collection.get(cont)!!,
         value: ton("0.06"),
-        mode: 0,
+        mode: 64,
         body: Transfer{
           queryId: msg.queryId,
           newOwner: self.owner,
