@@ -179,19 +179,19 @@ contract Task5 with Deployable {
     require(sender() == self.owner,"Invalid sender");
     require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
     
+
+    nativeReserve(context().value,3);
+
     let cont: Int = 0;
     repeat(self.total_nft){
-
-      nativeReserve(ton("0.06"),3);
-
       send(SendParameters{
         to: self.collection.get(cont)!!,
-        value: ton("0.06"),
-        mode: 64,
+        value: 0,
+        mode: SendRemainingBalance,
         body: Transfer{
           queryId: msg.queryId,
           newOwner: self.owner,
-          responseDestination: self.owner,
+          responseDestination: myBalance(),
           forwardAmount: 0,
           customPayload: null,
           forwardPayload: emptySlice()
