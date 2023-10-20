@@ -198,7 +198,7 @@ contract Task5 with Deployable {
           queryId: msg.queryId,
           newOwner: self.owner,
           responseDestination: myAddress(),
-          forwardAmount: 0,
+          forwardAmount: myBalance(),
           customPayload: null,
           forwardPayload: emptySlice()
         }.toCell()
