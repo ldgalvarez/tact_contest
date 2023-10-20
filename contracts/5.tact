@@ -219,12 +219,12 @@ contract Task5 with Deployable {
       self.cont = 0;
       self.collection = emptyMap();
       
-      send(SendParameters{
-        to: self.owner,
-        value: 0, 
-        mode: 64, 
-        bounce: true
-      });
+      // send(SendParameters{
+      //   to: self.owner,
+      //   value: 0, 
+      //   mode: 64, 
+      //   bounce: true
+      // });
     }
 
     
