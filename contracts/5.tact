@@ -123,7 +123,7 @@ contract Task5 with Deployable {
         send(SendParameters{
           to: sender(),
           value: 0, 
-          mode: SendRemainingValue, 
+          mode: 64, 
           bounce: true, 
           body: Transfer{
             queryId: msg.queryId,
@@ -148,7 +148,7 @@ contract Task5 with Deployable {
         send(SendParameters{
           to: nft,
           value: ton("0.1") - context().readForwardFee()*2, 
-          mode: 66, 
+          mode: 3, 
           bounce: true, 
           body: Transfer{
             queryId: msg.queryId,
