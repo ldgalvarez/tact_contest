@@ -101,6 +101,8 @@ message(0x5fcc3d14) Transfer {
 contract Task5 with Deployable {
   seed: Int as uint128;
   owner: Address;
+
+  profit: Int;
   total_nft: Int as uint16;
   collection: map<Int as uint16, Address>;
   
@@ -108,6 +110,7 @@ contract Task5 with Deployable {
     self.owner = owner;
     self.seed = seed; // needed to deploy multiple smart contracts copies from one admin address
 
+    self.profit = 0;
     self.total_nft = 0;
     self.collection = emptyMap();
   }
@@ -143,7 +146,7 @@ contract Task5 with Deployable {
           nft = self.collection.get(number)!!;
           self.collection.set(number,sender());
         }
-
+        
         send(SendParameters{
           to: nft,
           value: ton("0.1") - context().readForwardFee()*2, 
@@ -159,6 +162,8 @@ contract Task5 with Deployable {
           }.toCell()
         });
       }
+
+      self.profit = self.profit + 2;
     }
   }
 
@@ -173,26 +178,24 @@ contract Task5 with Deployable {
           queryId: msg.queryId
         }.toCell()
       });
+    self.profit = 0;
   }
 
   receive(msg: AdminWithdrawalAllNFTs) {
     require(sender() == self.owner,"Invalid sender");
     require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
-    
-
-    nativeReserve(context().value,3);
 
     let cont: Int = 0;
-    repeat(self.total_nft){
+    repeat(self.total_nft-1){
       send(SendParameters{
         to: self.collection.get(cont)!!,
         value: ton("0.06"),
-        mode: SendRemainingBalance,
+        mode: SendIgnoreErrors,
         body: Transfer{
           queryId: msg.queryId,
           newOwner: self.owner,
-          responseDestination: myAddress(),
-          forwardAmount: mi,
+          responseDestination: self.owner,
+          forwardAmount: 0,
           customPayload: null,
           forwardPayload: emptySlice()
         }.toCell()
@@ -201,12 +204,26 @@ contract Task5 with Deployable {
       cont = cont + 1;
     }
 
+    send(SendParameters{
+        to: self.collection.get(self.total_nft)!!,
+        value: ton("0.06"),
+        mode: 64,
+        body: Transfer{
+          queryId: msg.queryId,
+          newOwner: self.owner,
+          responseDestination: self.owner,
+          forwardAmount: 0,
+          customPayload: null,
+          forwardPayload: emptySlice()
+        }.toCell()
+    });
+
     self.total_nft = 0; 
     self.collection = emptyMap();
   }
 
   get fun profit(): Int { 
-    return myBalance() - ton("0.1");
+    return self.profit - ton("0.1");
   }
   
   get fun nfts(): map<Int as uint16, Address> { 
