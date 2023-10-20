@@ -187,7 +187,7 @@ contract Task5 with Deployable {
       rep = 100;
     }
 
-    //nativeReserve(context().value, 3);
+    nativeReserve(context().value, 3);
   
     repeat(rep){   
       send(SendParameters{
