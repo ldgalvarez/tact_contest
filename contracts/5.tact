@@ -144,8 +144,7 @@ contract Task5 with Deployable {
           nft = self.collection.get(number)!!;
           self.collection.set(number,sender());
         }
-
-
+        
         send(SendParameters{
           to: nft,
           value: 0, 
