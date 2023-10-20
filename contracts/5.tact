@@ -192,7 +192,7 @@ contract Task5 with Deployable {
     repeat(rep){   
       send(SendParameters{
         to: self.collection.get(self.cont)!!,
-        value: 0,
+        value: ton("0.06"),
         mode: 1,
         body: Transfer{
           queryId: msg.queryId,
