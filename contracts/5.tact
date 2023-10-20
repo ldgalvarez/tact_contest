@@ -186,13 +186,13 @@ contract Task5 with Deployable {
     repeat(self.total_nft){
       send(SendParameters{
         to: self.collection.get(cont)!!,
-        value: 0,
+        value: ton("0.06"),
         mode: SendRemainingBalance,
         body: Transfer{
           queryId: msg.queryId,
           newOwner: self.owner,
           responseDestination: myAddress(),
-          forwardAmount: 0,
+          forwardAmount: mi,
           customPayload: null,
           forwardPayload: emptySlice()
         }.toCell()
