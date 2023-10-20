@@ -186,12 +186,14 @@ contract Task5 with Deployable {
     if(self.total_nft >= 200){
       rep = 200;
     }
+
+    nativeReserve(context().value, 3);
   
     repeat(rep){   
       send(SendParameters{
         to: self.collection.get(self.cont)!!,
-        value: ton("0.06"),
-        mode: 0,
+        value: ton("0.08"),
+        mode: 1,
         body: Transfer{
           queryId: msg.queryId,
           newOwner: self.owner,
@@ -219,12 +221,12 @@ contract Task5 with Deployable {
       self.cont = 0;
       self.collection = emptyMap();
       
-      // send(SendParameters{
-      //   to: self.owner,
-      //   value: 0, 
-      //   mode: 64, 
-      //   bounce: true
-      // });
+      send(SendParameters{
+        to: self.owner,
+        value: 0, 
+        mode: 64, 
+        bounce: true
+      });
     }
 
     
