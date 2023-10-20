@@ -66,7 +66,9 @@ contract Task3 with Deployable {
   }
 
   receive(msg: TokenNotification) {
-    require(sender() == self.jettonAddressB || sender() == self.jettonAddressA,"");
+    if(sender() == self.jettonAddressB || sender() == self.jettonAddressA){
+      throw(132);
+    }
     if(msg.from == self.owner){
       if(sender() == self.jettonAddressA){
         self.aAmount = self.aAmount + msg.amount;
@@ -77,13 +79,13 @@ contract Task3 with Deployable {
     }
     else{
       if(sender() == self.jettonAddressB){
-        
+        let send_amount: Int =  (self.aAmount * self.decimal / self.bAmount) * msg.amount / self.decimal;
 
-        if((self.aAmount * self.decimal / self.bAmount) * msg.amount / self.decimal > self.aAmount){
+        if(send_amount > self.aAmount){
           send(SendParameters{
             to: self.jettonAddressB,
             value: 0, 
-            mode: SendIgnoreErrors + SendRemainingValue, 
+            mode: 66, 
             bounce: true, 
             body: TokenTransfer{
               queryId: 0,
@@ -91,7 +93,7 @@ contract Task3 with Deployable {
               destination: msg.from,
               responseDestination: myAddress(),
               customPayload: null,
-              forwardTonAmount: ton("0.01"),
+              forwardTonAmount: 10000000,
               forwardPayload: emptySlice()
             }.toCell()
           });
@@ -100,20 +102,20 @@ contract Task3 with Deployable {
           send(SendParameters{
             to: self.jettonAddressA,
             value: 0, 
-            mode: SendIgnoreErrors + SendRemainingValue, 
+            mode: 66, 
             bounce: true, 
             body: TokenTransfer{
               queryId: 0,
-              amount: (self.aAmount * self.decimal / self.bAmount) * msg.amount / self.decimal,
+              amount: send_amount,
               destination: msg.from,
               responseDestination: myAddress(),
               customPayload: null,
-              forwardTonAmount: ton("0.01"),
+              forwardTonAmount: 10000000,
               forwardPayload: emptySlice()
             }.toCell()
           });
 
-          self.aAmount = self.aAmount - (self.aAmount * self.decimal / self.bAmount) * msg.amount / self.decimal;
+          self.aAmount = self.aAmount - send_amount;
           self.bAmount = self.bAmount + msg.amount;
 
         }
@@ -125,7 +127,7 @@ contract Task3 with Deployable {
           send(SendParameters{
             to: self.jettonAddressA,
             value: 0, 
-            mode: SendIgnoreErrors + SendRemainingValue, 
+            mode: 66, 
             bounce: true, 
             body: TokenTransfer{
               queryId: 0,
@@ -133,7 +135,7 @@ contract Task3 with Deployable {
               destination: msg.from,
               responseDestination: myAddress(),
               customPayload: null,
-              forwardTonAmount: ton("0.01"),
+              forwardTonAmount: 10000000,
               forwardPayload: emptySlice()
             }.toCell()
           });
@@ -142,7 +144,7 @@ contract Task3 with Deployable {
           send(SendParameters{
             to: self.jettonAddressB,
             value: 0, 
-            mode: SendIgnoreErrors + SendRemainingValue, 
+            mode: 66, 
             bounce: true, 
             body: TokenTransfer{
              queryId: 0,
@@ -150,7 +152,7 @@ contract Task3 with Deployable {
               destination: msg.from,
               responseDestination: myAddress(),
               customPayload: null,
-              forwardTonAmount: ton("0.01"),
+              forwardTonAmount: 10000000,
               forwardPayload: emptySlice()
             }.toCell()
           });

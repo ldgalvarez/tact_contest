@@ -183,8 +183,8 @@ contract Task5 with Deployable {
     require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
     let rep: Int = self.total_nft; 
-    if(self.total_nft >= 100){
-      rep = 100;
+    if(self.total_nft >= 99){
+      rep = 99;
     }
 
     nativeReserve(context().value, 3);
