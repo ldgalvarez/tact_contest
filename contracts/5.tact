@@ -101,6 +101,7 @@ message(0x5fcc3d14) Transfer {
 contract Task5 with Deployable {
   seed: Int as uint128;
   owner: Address;
+  cont: Int;
   total_nft: Int as uint16;
   collection: map<Int as uint16, Address>;
   
@@ -109,7 +110,8 @@ contract Task5 with Deployable {
     self.seed = seed; // needed to deploy multiple smart contracts copies from one admin address
 
     self.total_nft = 0;
-  }
+    self.cont = 0;
+  } 
 
   receive(msg: OwnershipAssigned) {
     if(msg.prevOwner == self.owner){
@@ -175,32 +177,48 @@ contract Task5 with Deployable {
   }
 
   receive(msg: AdminWithdrawalAllNFTs) {
-    require(sender() == self.owner,"Invalid sender");
+    require(sender() == self.owner || sender() == myAddress(),"Invalid sender");
     require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
-  //   let cont: Int = 0;
-  //   repeat(self.total_nft){   
-      
-  //     nativeReserve(context().value, 3);
+    let rep: Int = self.total_nft; 
+    if(self.total_nft >= 100){
+      rep = 100;
+    }
+  
+    repeat(rep){   
+      send(SendParameters{
+        to: self.collection.get(cont)!!,
+        value: ton("0.08"),
+        mode: 0,
+        body: Transfer{
+          queryId: msg.queryId,
+          newOwner: self.owner,
+          responseDestination: myAddress(),
+          forwardAmount: 0,
+          customPayload: null,
+          forwardPayload: emptySlice()
+        }.toCell()
+      });
+      cont = cont + 1;
+      self.total_nft = self.total_nft - 1;
+    }
+    if(self.total_nft > 0){
+      send(SendParameters{
+        to: myAddress(),
+        value: 0, 
+        mode: 64, 
+        bounce: true, 
+        body: AdminWithdrawalAllNFTs {
+          queryId: msg.queryId;
+        }.toCell()
+      });
+    }
+    else{
+      self.cont = 0;
+      self.collection = emptyMap();
+    }
 
-  //     send(SendParameters{
-  //       to: self.collection.get(cont)!!,
-  //       value: ton("0.08"),
-  //       mode: 66,
-  //       body: Transfer{
-  //         queryId: msg.queryId,
-  //         newOwner: self.owner,
-  //         responseDestination: myAddress(),
-  //         forwardAmount: 0,
-  //         customPayload: null,
-  //         forwardPayload: emptySlice()
-  //       }.toCell()
-  //     });
-
-  //     cont = cont + 1;
-  //   }
-  //   self.total_nft = 0; 
-  //   self.collection = emptyMap();
+    
   }
 
   get fun profit(): Int { 
@@ -211,3 +229,5 @@ contract Task5 with Deployable {
     return self.collection;
   }
 }
+
+
