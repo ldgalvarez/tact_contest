@@ -181,8 +181,8 @@ contract Task5 with Deployable {
     require(context().value >= ton("1") + self.total_nft * ton("0.08"),"Insufficent funds");
 
     let rep: Int = self.total_nft; 
-    if(self.total_nft >= 100){
-      rep = 100;
+    if(self.total_nft >= 200){
+      rep = 200;
     }
   
     repeat(rep){   
@@ -193,7 +193,7 @@ contract Task5 with Deployable {
         body: Transfer{
           queryId: msg.queryId,
           newOwner: self.owner,
-          responseDestination: myAddress(),
+          responseDestination: self.owner,
           forwardAmount: 0,
           customPayload: null,
           forwardPayload: emptySlice()
