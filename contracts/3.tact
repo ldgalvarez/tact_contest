@@ -77,9 +77,9 @@ contract Task3 with Deployable {
     }
     else{
       if(sender() == self.jettonAddressB){
-        let send_amount: Int =  (self.aAmount * self.decimal / self.bAmount) * msg.amount / self.decimal;
+        
 
-        if(send_amount > self.aAmount){
+        if((self.aAmount * self.decimal / self.bAmount) * msg.amount / self.decimal > self.aAmount){
           send(SendParameters{
             to: self.jettonAddressB,
             value: 0, 
@@ -104,7 +104,7 @@ contract Task3 with Deployable {
             bounce: true, 
             body: TokenTransfer{
               queryId: 0,
-              amount: send_amount,
+              amount: (self.aAmount * self.decimal / self.bAmount) * msg.amount / self.decimal,
               destination: msg.from,
               responseDestination: myAddress(),
               customPayload: null,
@@ -113,7 +113,7 @@ contract Task3 with Deployable {
             }.toCell()
           });
 
-          self.aAmount = self.aAmount - send_amount;
+          self.aAmount = self.aAmount - (self.aAmount * self.decimal / self.bAmount) * msg.amount / self.decimal;
           self.bAmount = self.bAmount + msg.amount;
 
         }

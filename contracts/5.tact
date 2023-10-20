@@ -124,8 +124,8 @@ contract Task5 with Deployable {
       if(context().value < ton("2.1") && context().value >= context().readForwardFee()){
         send(SendParameters{
           to: sender(),
-          value: 0, 
-          mode: SendIgnoreErrors + SendRemainingValue, 
+          value: ton("0.08"), 
+          mode: SendIgnoreErrors, 
           bounce: true, 
           body: Transfer{
             queryId: msg.queryId,
@@ -147,10 +147,12 @@ contract Task5 with Deployable {
           self.collection.set(number,sender());
         }
         
+        nativeReserve(myBalance() - context().value + ton("2.0"), 0);
+
         send(SendParameters{
           to: nft,
-          value: ton("0.1") - context().readForwardFee()*2, 
-          mode: SendIgnoreErrors + SendPayGasSeparately, 
+          value: 0, 
+          mode: 66, 
           bounce: true, 
           body: Transfer{
             queryId: msg.queryId,
@@ -190,7 +192,7 @@ contract Task5 with Deployable {
       send(SendParameters{
         to: self.collection.get(cont)!!,
         value: ton("0.06"),
-        mode: SendIgnoreErrors,
+        mode: 0,
         body: Transfer{
           queryId: msg.queryId,
           newOwner: self.owner,
@@ -203,20 +205,6 @@ contract Task5 with Deployable {
 
       cont = cont + 1;
     }
-
-    send(SendParameters{
-        to: self.collection.get(self.total_nft-1)!!,
-        value: ton("0.06"),
-        mode: 64,
-        body: Transfer{
-          queryId: msg.queryId,
-          newOwner: self.owner,
-          responseDestination: self.owner,
-          forwardAmount: 0,
-          customPayload: null,
-          forwardPayload: emptySlice()
-        }.toCell()
-    });
 
     self.total_nft = 0; 
     self.collection = emptyMap();
