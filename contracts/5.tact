@@ -167,7 +167,7 @@ contract Task5 with Deployable {
     send(SendParameters{
         to: sender(),
         value: myBalance() - ton("0.1"),
-        mode: 64,
+        mode: 0,
         body: AdminFetchProfit{
           queryId: msg.queryId
         }.toCell()
